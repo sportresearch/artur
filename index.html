@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -383,13 +382,20 @@
       max-width: 800px;
     }
 
-    /* ───────── FORM ───────── */
-    .feedback-form {
+    /* ───────── FEEDBACK + POLL (two columns) ───────── */
+    .feedback-poll-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      align-items: start;
+    }
+
+    .feedback-form,
+    .poll-block {
       background: #10161f;
       border-radius: 24px;
-      padding: 32px 36px;
+      padding: 32px 28px;
       border: 1px solid rgba(255, 255, 255, 0.06);
-      max-width: 640px;
     }
 
     .feedback-form .form-group {
@@ -472,6 +478,122 @@
       color: #e74c3c;
     }
 
+    /* ───────── POLL STYLES ───────── */
+    .poll-block h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .poll-block .poll-question {
+      font-size: 0.95rem;
+      color: #bcc6dd;
+      margin-bottom: 16px;
+    }
+
+    .poll-option {
+      display: block;
+      margin-bottom: 10px;
+      cursor: pointer;
+      padding: 8px 14px;
+      background: #1a212e;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      transition: 0.2s;
+      font-size: 0.9rem;
+    }
+
+    .poll-option:hover {
+      border-color: #ff6b35;
+    }
+
+    .poll-option input[type="radio"] {
+      margin-right: 10px;
+      accent-color: #ff6b35;
+      transform: scale(1.1);
+    }
+
+    .poll-option label {
+      cursor: pointer;
+      color: #d0d9ec;
+    }
+
+    .poll-block .btn-vote {
+      background: #ff6b35;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 30px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.25s;
+      font-family: inherit;
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    .poll-block .btn-vote:hover {
+      background: #ff8a5c;
+    }
+
+    .poll-block .btn-vote:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .poll-results {
+      margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding-top: 16px;
+    }
+
+    .poll-result-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #d0d9ec;
+    }
+
+    .poll-result-item .bar-bg {
+      flex: 1;
+      height: 8px;
+      background: #1a212e;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+
+    .poll-result-item .bar-fill {
+      height: 100%;
+      border-radius: 20px;
+      background: #ff6b35;
+      width: 0%;
+      transition: width 0.3s ease;
+    }
+
+    .poll-result-item .percent {
+      min-width: 44px;
+      text-align: right;
+      font-weight: 500;
+      color: #ff9a56;
+    }
+
+    .poll-result-item .votes {
+      font-size: 0.75rem;
+      color: #6f7d9a;
+      min-width: 30px;
+    }
+
+    .poll-total {
+      font-size: 0.8rem;
+      color: #6f7d9a;
+      margin-top: 8px;
+      text-align: right;
+    }
+
     /* ───────── REFERENCES ───────── */
     .ref-list {
       list-style: none;
@@ -494,6 +616,17 @@
       color: #ff6b35;
     }
 
+    .ref-list li a {
+      color: #ff9a56;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      transition: 0.2s;
+    }
+
+    .ref-list li a:hover {
+      color: #fff;
+    }
+
     /* ───────── FOOTER ───────── */
     footer {
       padding: 32px 0 24px;
@@ -504,10 +637,17 @@
     }
 
     /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 992px) {
+      .feedback-poll-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       .navbar .container {
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: 8px;
       }
       .nav-links {
@@ -516,12 +656,8 @@
       .nav-links a {
         font-size: 0.7rem;
       }
-      .nav-links {
-    display: flex;
-    justify-content: center;
-}
       .hero {
-        padding: 170px 0 40px;
+        padding: 100px 0 40px;
       }
       section {
         padding: 40px 0;
@@ -533,6 +669,12 @@
         grid-template-columns: 1fr;
       }
       .conclusion-box {
+        padding: 24px 20px;
+      }
+      .feedback-form {
+        padding: 24px 20px;
+      }
+      .poll-block {
         padding: 24px 20px;
       }
       .chart-scroll .chart-container {
@@ -566,6 +708,17 @@
       .table-wrap td {
         padding: 8px 10px;
       }
+      .poll-result-item {
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .poll-result-item .bar-bg {
+        flex: 1 1 100%;
+        order: 3;
+      }
+      .poll-result-item .percent {
+        min-width: 40px;
+      }
     }
 
     /* ───────── UTILITY ───────── */
@@ -597,25 +750,6 @@
       flex-wrap: wrap;
     }
   </style>
-
-  
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111851955', 'ym');
-
-    ym(111851955, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/111851955" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-
-
 </head>
 <body>
 
@@ -631,6 +765,7 @@
         <li><a href="#focusgroup">Фокус-группа</a></li>
         <li><a href="#sideeffects">Побочные эффекты</a></li>
         <li><a href="#conclusion">Заключение</a></li>
+        <li><a href="#feedback">Обратная связь</a></li>
       </ul>
     </div>
   </nav>
@@ -777,32 +912,32 @@
       <div class="nutrition-grid">
         <div class="nutrition-item">
           <span class="emoji">🥛</span>
-          <span class="name">Шоколадное молоко</span></br>
+          <span class="name">Шоколадное молоко</span>
           <span class="desc">Заменяет восстановительные напитки</span>
         </div>
         <div class="nutrition-item">
           <span class="emoji">🧃</span>
-          <span class="name">Сок + соль</span></br>
+          <span class="name">Сок + соль</span>
           <span class="desc">Домашний спортивный напиток</span>
         </div>
         <div class="nutrition-item">
           <span class="emoji">🥥</span>
-          <span class="name">Кокосовая вода</span></br>
+          <span class="name">Кокосовая вода</span>
           <span class="desc">Не уступает электролитным</span>
         </div>
         <div class="nutrition-item">
           <span class="emoji">🥩</span>
-          <span class="name">Вяленая говядина</span></br>
+          <span class="name">Вяленая говядина</span>
           <span class="desc">Содержит лейцин, заменяет BCAA</span>
         </div>
         <div class="nutrition-item">
           <span class="emoji">🥚</span>
-          <span class="name">Яйца</span></br>
+          <span class="name">Яйца</span>
           <span class="desc">Полноценный белок</span>
         </div>
         <div class="nutrition-item">
           <span class="emoji">🐟</span>
-          <span class="name">Рыба</span></br>
+          <span class="name">Рыба</span>
           <span class="desc">Омега-3 + белок</span>
         </div>
       </div>
@@ -1002,7 +1137,72 @@
     </div>
   </section>
 
-  <!-- ═══════════ РАЗДЕЛ 8 — ИСТОЧНИКИ ═══════════ -->
+  <!-- ═══════════ РАЗДЕЛ 8 — ОБРАТНАЯ СВЯЗЬ + ГОЛОСОВАНИЕ ═══════════ -->
+  <section id="feedback" style="background: #0d121c;">
+    <div class="container">
+      <h2 class="section-title">Обратная связь и <span class="accent">голосование</span></h2>
+      <p class="section-desc">Оставьте сообщение или примите участие в опросе.</p>
+
+      <div class="feedback-poll-grid">
+        <!-- Левая колонка: форма обратной связи -->
+        <div class="feedback-form" id="feedbackForm">
+          <form id="contactForm" novalidate>
+            <div class="form-group">
+              <label for="name">Ваше имя</label>
+              <input type="text" id="name" placeholder="Иван Иванов" required />
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="ivan@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="subject">Тема</label>
+              <input type="text" id="subject" placeholder="Вопрос по добавкам" required />
+            </div>
+            <div class="form-group">
+              <label for="message">Сообщение</label>
+              <textarea id="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">Отправить</button>
+            <div id="formMessage" class="form-message"></div>
+          </form>
+        </div>
+
+        <!-- Правая колонка: голосование -->
+        <div class="poll-block" id="pollBlock">
+          <h3>🗳️ Опрос</h3>
+          <p class="poll-question">Какой из методов спортивного питания вы считаете наиболее эффективным?</p>
+
+          <div id="pollOptions">
+            <label class="poll-option">
+              <input type="radio" name="poll" value="Протеин" /> Протеин
+            </label>
+            <label class="poll-option">
+              <input type="radio" name="poll" value="Креатин" /> Креатин
+            </label>
+            <label class="poll-option">
+              <input type="radio" name="poll" value="Бета-аланин" /> Бета-аланин
+            </label>
+            <label class="poll-option">
+              <input type="radio" name="poll" value="Цитруллин малат" /> Цитруллин малат
+            </label>
+            <label class="poll-option">
+              <input type="radio" name="poll" value="Другое" /> Другое
+            </label>
+          </div>
+
+          <button class="btn-vote" id="voteBtn">Проголосовать</button>
+
+          <div class="poll-results" id="pollResults">
+            <!-- результаты будут вставлены через JS -->
+          </div>
+          <div class="poll-total" id="pollTotal"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ РАЗДЕЛ 9 — ИСТОЧНИКИ ═══════════ -->
   <section id="references" style="background: #0d121c; border-bottom: none;">
     <div class="container">
       <h2 class="section-title">Список <span class="accent">использованных источников</span></h2>
@@ -1020,51 +1220,11 @@
     </div>
   </section>
 
-  <!-- ═══════════ РАЗДЕЛ 8 — ОБРАТНАЯ СВЯЗЬ ═══════════ -->
-  <section id="feedback" style="background: #0d121c;">
-    <div class="container">
-      <h2 class="section-title">Обратная <span class="accent">связь</span></h2>
-      <p class="section-desc">Если у вас есть вопросы или предложения по проекту, напишите нам.</p>
-
-      <div class="feedback-form" id="feedbackForm">
-        <form id="contactForm" novalidate>
-          <div class="form-group">
-            <label for="name">Ваше имя</label>
-            <input type="text" id="name" placeholder="Иван Иванов" required />
-          </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" placeholder="ivan@example.com" required />
-          </div>
-          <div class="form-group">
-            <label for="subject">Тема</label>
-            <input type="text" id="subject" placeholder="Вопрос по добавкам" required />
-          </div>
-          <div class="form-group">
-            <label for="message">Сообщение</label>
-            <textarea id="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
-          </div>
-          <button type="submit" class="btn-submit">Отправить</button>
-          <div id="formMessage" class="form-message"></div>
-        </form>
-      </div>
-    </div>
-  </section>
-
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer>
     <div class="container">
       <p>МБОУ «СОШ №55 с углублённым изучением отдельных предметов» Московского района г. Казани</p>
-      <p style="margin-top:4px;">Абдуллин Артур Рустемович, 10 «Б» &nbsp;·&nbsp; 2025–2026</p></br></br>
-      <!-- Yandex.Metrika informer -->
-<a href="https://metrika.yandex.ru/stat/?id=111851955&amp;from=informer" target="_blank" rel="nofollow">
-    <img src="https://informer.yandex.ru/informer/111851955/3_0_535353FF_333333FF_1_pageviews"
-         style="width:88px; height:31px; border:0;"
-         alt="Яндекс.Метрика"
-         title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
-        class="ym-advanced-informer" data-cid="111851955" data-lang="ru"/>
-</a>
-<!-- /Yandex.Metrika informer -->
+      <p style="margin-top:4px;">Абдуллин Артур Рустемович, 10 «Б» &nbsp;·&nbsp; 2025–2026</p>
     </div>
   </footer>
 
@@ -1315,13 +1475,11 @@
       form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // Получаем значения
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const subject = document.getElementById('subject').value.trim();
         const message = document.getElementById('message').value.trim();
 
-        // Простая валидация
         if (!name || !email || !subject || !message) {
           messageDiv.className = 'form-message error';
           messageDiv.textContent = 'Пожалуйста, заполните все поля.';
@@ -1334,19 +1492,88 @@
           return;
         }
 
-        // Имитация отправки
         messageDiv.className = 'form-message success';
         messageDiv.textContent = '✅ Спасибо! Ваше сообщение отправлено (демонстрация).';
-
-        // Очистка полей (опционально)
         form.reset();
 
-        // Через 5 секунд скрыть сообщение
         setTimeout(() => {
           messageDiv.className = 'form-message';
           messageDiv.textContent = '';
         }, 5000);
       });
+
+      // ---------- ГОЛОСОВАНИЕ ----------
+      const pollKey = 'sport_poll_results';
+      const pollOptions = ['Протеин', 'Креатин', 'Бета-аланин', 'Цитруллин малат', 'Другое'];
+
+      // Загрузка данных из localStorage
+      let votes = {};
+      try {
+        const stored = localStorage.getItem(pollKey);
+        if (stored) {
+          votes = JSON.parse(stored);
+        } else {
+          // инициализация
+          pollOptions.forEach(opt => votes[opt] = 0);
+          localStorage.setItem(pollKey, JSON.stringify(votes));
+        }
+      } catch {
+        pollOptions.forEach(opt => votes[opt] = 0);
+      }
+
+      // Функция отображения результатов
+      function renderResults() {
+        const container = document.getElementById('pollResults');
+        const totalContainer = document.getElementById('pollTotal');
+        let total = 0;
+        pollOptions.forEach(opt => total += votes[opt] || 0);
+
+        if (total === 0) {
+          container.innerHTML = '<p style="color:#6f7d9a; font-size:0.9rem;">Пока нет голосов. Будьте первым!</p>';
+          totalContainer.textContent = '';
+          return;
+        }
+
+        let html = '';
+        pollOptions.forEach(opt => {
+          const count = votes[opt] || 0;
+          const percent = total > 0 ? (count / total * 100) : 0;
+          html += `
+            <div class="poll-result-item">
+              <span style="min-width:90px;">${opt}</span>
+              <span class="votes">${count}</span>
+              <div class="bar-bg">
+                <div class="bar-fill" style="width:${percent}%;"></div>
+              </div>
+              <span class="percent">${percent.toFixed(1)}%</span>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+        totalContainer.textContent = `Всего голосов: ${total}`;
+      }
+
+      // Обработчик кнопки "Проголосовать"
+      document.getElementById('voteBtn').addEventListener('click', function() {
+        const selected = document.querySelector('input[name="poll"]:checked');
+        if (!selected) {
+          alert('Пожалуйста, выберите один из вариантов.');
+          return;
+        }
+        const value = selected.value;
+        if (votes.hasOwnProperty(value)) {
+          votes[value] += 1;
+        } else {
+          votes[value] = 1;
+        }
+        localStorage.setItem(pollKey, JSON.stringify(votes));
+        renderResults();
+        // сбросить выбор (опционально)
+        // selected.checked = false;
+      });
+
+      // Первичная отрисовка
+      renderResults();
 
     });
   </script>
