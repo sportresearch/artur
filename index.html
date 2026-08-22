@@ -478,6 +478,13 @@
       color: #e74c3c;
     }
 
+    .feedback-form .form-message.info {
+      display: block;
+      background: rgba(52, 152, 219, 0.15);
+      border: 1px solid #3498db;
+      color: #5dade2;
+    }
+
     /* ───────── POLL STYLES ───────── */
     .poll-block h3 {
       font-size: 1.25rem;
@@ -750,25 +757,6 @@
       flex-wrap: wrap;
     }
   </style>
-
-  
-
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111851955', 'ym');
-
-    ym(111851955, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/111851955" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-
-
-
 </head>
 <body>
 
@@ -1166,21 +1154,26 @@
         <!-- Левая колонка: форма обратной связи -->
         <div class="feedback-form" id="feedbackForm">
           <form id="contactForm" novalidate>
+            <!-- Скрытые поля для formsubmit.co -->
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_subject" value="Новое сообщение с сайта о спортивных добавках" />
+
             <div class="form-group">
               <label for="name">Ваше имя</label>
-              <input type="text" id="name" placeholder="Иван Иванов" required />
+              <input type="text" id="name" name="name" placeholder="Иван Иванов" required />
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" placeholder="ivan@example.com" required />
+              <input type="email" id="email" name="email" placeholder="ivan@example.com" required />
             </div>
             <div class="form-group">
               <label for="subject">Тема</label>
-              <input type="text" id="subject" placeholder="Вопрос по добавкам" required />
+              <input type="text" id="subject" name="subject" placeholder="Вопрос по добавкам" required />
             </div>
             <div class="form-group">
               <label for="message">Сообщение</label>
-              <textarea id="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
+              <textarea id="message" name="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
             </div>
             <button type="submit" class="btn-submit">Отправить</button>
             <div id="formMessage" class="form-message"></div>
@@ -1243,16 +1236,7 @@
   <footer>
     <div class="container">
       <p>МБОУ «СОШ №55 с углублённым изучением отдельных предметов» Московского района г. Казани</p>
-      <p style="margin-top:4px;">Абдуллин Артур Рустемович, 10 «Б» &nbsp;·&nbsp; 2025–2026</p></br></br>
-      <!-- Yandex.Metrika informer -->
-<a href="https://metrika.yandex.ru/stat/?id=111851955&amp;from=informer" target="_blank" rel="nofollow">
-    <img src="https://informer.yandex.ru/informer/111851955/3_0_535353FF_333333FF_1_pageviews"
-         style="width:88px; height:31px; border:0;"
-         alt="Яндекс.Метрика"
-         title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
-        class="ym-advanced-informer" data-cid="111851955" data-lang="ru"/>
-</a>
-<!-- /Yandex.Metrika informer -->
+      <p style="margin-top:4px;">Абдуллин Артур Рустемович, 10 «Б» &nbsp;·&nbsp; 2025–2026</p>
     </div>
   </footer>
 
@@ -1496,13 +1480,14 @@
         }
       });
 
-      // ---------- ОБРАБОТЧИК ФОРМЫ ----------
+      // ---------- ОБРАБОТЧИК ФОРМЫ (отправка на email через FormSubmit) ----------
       const form = document.getElementById('contactForm');
       const messageDiv = document.getElementById('formMessage');
 
       form.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        // Базовая валидация (дублирует required, но для UX)
         const name = document.getElementById('name').value.trim();
         const email = document.getElementById('email').value.trim();
         const subject = document.getElementById('subject').value.trim();
@@ -1520,14 +1505,39 @@
           return;
         }
 
-        messageDiv.className = 'form-message success';
-        messageDiv.textContent = '✅ Спасибо! Ваше сообщение отправлено (демонстрация).';
-        form.reset();
+        // Показываем индикатор отправки
+        messageDiv.className = 'form-message info';
+        messageDiv.textContent = '⏳ Отправка...';
 
+        // Формируем FormData
+        const formData = new FormData(form);
+
+        // Отправляем на FormSubmit
+        fetch('https://formsubmit.co/aaa27092009@gmail.com', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          if (response.ok) {
+            messageDiv.className = 'form-message success';
+            messageDiv.textContent = '✅ Сообщение успешно отправлено! Скоро мы ответим вам.';
+            form.reset();
+          } else {
+            throw new Error('Ошибка при отправке');
+          }
+        })
+        .catch(error => {
+          messageDiv.className = 'form-message error';
+          messageDiv.textContent = '❌ Произошла ошибка при отправке. Пожалуйста, попробуйте позже.';
+        });
+
+        // Скрыть сообщение через 6 секунд
         setTimeout(() => {
-          messageDiv.className = 'form-message';
-          messageDiv.textContent = '';
-        }, 5000);
+          if (messageDiv.classList.contains('success') || messageDiv.classList.contains('error')) {
+            messageDiv.className = 'form-message';
+            messageDiv.textContent = '';
+          }
+        }, 6000);
       });
 
       // ---------- ГОЛОСОВАНИЕ ----------
@@ -1541,7 +1551,6 @@
         if (stored) {
           votes = JSON.parse(stored);
         } else {
-          // инициализация
           pollOptions.forEach(opt => votes[opt] = 0);
           localStorage.setItem(pollKey, JSON.stringify(votes));
         }
@@ -1549,7 +1558,6 @@
         pollOptions.forEach(opt => votes[opt] = 0);
       }
 
-      // Функция отображения результатов
       function renderResults() {
         const container = document.getElementById('pollResults');
         const totalContainer = document.getElementById('pollTotal');
@@ -1581,7 +1589,6 @@
         totalContainer.textContent = `Всего голосов: ${total}`;
       }
 
-      // Обработчик кнопки "Проголосовать"
       document.getElementById('voteBtn').addEventListener('click', function() {
         const selected = document.querySelector('input[name="poll"]:checked');
         if (!selected) {
@@ -1596,11 +1603,8 @@
         }
         localStorage.setItem(pollKey, JSON.stringify(votes));
         renderResults();
-        // сбросить выбор (опционально)
-        // selected.checked = false;
       });
 
-      // Первичная отрисовка
       renderResults();
 
     });
