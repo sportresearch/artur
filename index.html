@@ -383,6 +383,95 @@
       max-width: 800px;
     }
 
+    /* ───────── FORM ───────── */
+    .feedback-form {
+      background: #10161f;
+      border-radius: 24px;
+      padding: 32px 36px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      max-width: 640px;
+    }
+
+    .feedback-form .form-group {
+      margin-bottom: 18px;
+    }
+
+    .feedback-form label {
+      display: block;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #d0d9ec;
+      margin-bottom: 4px;
+    }
+
+    .feedback-form input,
+    .feedback-form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: #1a212e;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      color: #e8edf5;
+      font-size: 0.95rem;
+      font-family: inherit;
+      transition: 0.2s;
+    }
+
+    .feedback-form input:focus,
+    .feedback-form textarea:focus {
+      outline: none;
+      border-color: #ff6b35;
+      box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.15);
+    }
+
+    .feedback-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .feedback-form .btn-submit {
+      background: #ff6b35;
+      border: none;
+      border-radius: 40px;
+      padding: 14px 36px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.25s;
+      font-family: inherit;
+    }
+
+    .feedback-form .btn-submit:hover {
+      background: #ff8a5c;
+      transform: scale(1.02);
+    }
+
+    .feedback-form .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .feedback-form .form-message {
+      margin-top: 16px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      display: none;
+    }
+
+    .feedback-form .form-message.success {
+      display: block;
+      background: rgba(46, 204, 113, 0.15);
+      border: 1px solid #2ecc71;
+      color: #2ecc71;
+    }
+
+    .feedback-form .form-message.error {
+      display: block;
+      background: rgba(231, 76, 60, 0.15);
+      border: 1px solid #e74c3c;
+      color: #e74c3c;
+    }
+
     /* ───────── REFERENCES ───────── */
     .ref-list {
       list-style: none;
