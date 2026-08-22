@@ -9,9 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
-    <!-- Подключаем Supabase JS -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
-    </script>
     <style>
         /* ===== RESET & BASE ===== */
         * {
@@ -344,7 +341,7 @@
             max-width: 800px;
         }
 
-        /* ===== FEEDBACK + POLL ===== */
+        /* ===== FEEDBACK + POLL (two columns) ===== */
         .feedback-poll-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -434,105 +431,13 @@
             color: #5dade2;
         }
 
-        /* ===== POLL ===== */
-        .poll-block h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: #fff;
-        }
-        .poll-block .poll-question {
-            font-size: 0.95rem;
-            color: #bcc6dd;
-            margin-bottom: 16px;
-        }
-        .poll-option {
-            display: block;
-            margin-bottom: 10px;
-            cursor: pointer;
-            padding: 8px 14px;
-            background: #1a212e;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            transition: 0.2s;
-            font-size: 0.9rem;
-        }
-        .poll-option:hover {
-            border-color: #ff6b35;
-        }
-        .poll-option input[type="radio"] {
-            margin-right: 10px;
-            accent-color: #ff6b35;
-            transform: scale(1.1);
-        }
-        .poll-option label {
-            cursor: pointer;
-            color: #d0d9ec;
-        }
-        .poll-block .btn-vote {
-            background: #ff6b35;
-            border: none;
-            border-radius: 40px;
-            padding: 12px 30px;
-            font-weight: 600;
-            font-size: 0.95rem;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.25s;
-            font-family: inherit;
-            margin-top: 6px;
+        /* ===== POLL (WebAsk iframe) ===== */
+        .poll-block iframe {
             width: 100%;
-        }
-        .poll-block .btn-vote:hover {
-            background: #ff8a5c;
-        }
-        .poll-block .btn-vote:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .poll-results {
-            margin-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 16px;
-        }
-        .poll-result-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            color: #d0d9ec;
-        }
-        .poll-result-item .bar-bg {
-            flex: 1;
-            height: 8px;
-            background: #1a212e;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .poll-result-item .bar-fill {
-            height: 100%;
-            border-radius: 20px;
-            background: #ff6b35;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        .poll-result-item .percent {
-            min-width: 44px;
-            text-align: right;
-            font-weight: 500;
-            color: #ff9a56;
-        }
-        .poll-result-item .votes {
-            font-size: 0.75rem;
-            color: #6f7d9a;
-            min-width: 30px;
-        }
-        .poll-total {
-            font-size: 0.8rem;
-            color: #6f7d9a;
-            margin-top: 8px;
-            text-align: right;
+            border: none;
+            min-height: 400px;
+            border-radius: 12px;
+            background: transparent;
         }
 
         /* ===== REFERENCES ===== */
@@ -640,17 +545,6 @@
             .table-wrap th,
             .table-wrap td {
                 padding: 8px 10px;
-            }
-            .poll-result-item {
-                flex-wrap: wrap;
-                gap: 6px;
-            }
-            .poll-result-item .bar-bg {
-                flex: 1 1 100%;
-                order: 3;
-            }
-            .poll-result-item .percent {
-                min-width: 40px;
             }
         }
     </style>
@@ -856,7 +750,7 @@
         </div>
     </section>
 
-    <!-- ===== РАЗДЕЛ 8 — ОБРАТНАЯ СВЯЗЬ + ГОЛОСОВАНИЕ ===== -->
+    <!-- ===== РАЗДЕЛ 8 — ОБРАТНАЯ СВЯЗЬ + ГОЛОСОВАНИЕ (WebAsk) ===== -->
     <section id="feedback" style="background: #0d121c;">
         <div class="container">
             <h2 class="section-title">Обратная связь и <span class="accent">голосование</span></h2>
@@ -889,20 +783,12 @@
                     </form>
                 </div>
 
-                <!-- Блок голосования с Supabase -->
+                <!-- Блок голосования — вставьте iframe от WebAsk -->
                 <div class="poll-block">
                     <h3>🗳️ Опрос</h3>
                     <p class="poll-question">Какой из методов спортивного питания вы считаете наиболее эффективным?</p>
-                    <div id="pollOptions">
-                        <label class="poll-option"><input type="radio" name="poll" value="Протеин" /> Протеин</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Креатин" /> Креатин</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Бета-аланин" /> Бета-аланин</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Цитруллин малат" /> Цитруллин малат</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Другое" /> Другое</label>
-                    </div>
-                    <button class="btn-vote" id="voteBtn">Проголосовать</button>
-                    <div class="poll-results" id="pollResults"></div>
-                    <div class="poll-total" id="pollTotal"></div>
+                    <!-- СЮДА ВСТАВИТЬ КОД WEBASK -->
+                    <iframe width="100%" height="600px" src="https://a59797.webask.io/oogsisoif" style="overflow:auto" frameborder="0" allow="fullscreen; autoplay; encrypted-media; clipboard-write; picture-in-picture; payment" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
@@ -1038,109 +924,6 @@
                         messageDiv.textContent = '';
                     }
                 }, 6000);
-            });
-
-            // ---------- ГОЛОСОВАНИЕ С SUPABASE ----------
-            // ⚠️ ВСТАВЬТЕ ВАШ ANON КЛЮЧ
-            const SUPABASE_URL = 'https://xpcldnfppjcqpcrwjtpy.supabase.co';
-            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhwY2xkbmZwcGpjcXBjcndqdHB5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDI4ODg0MDAsImV4cCI6MjA1ODQ2NDQwMH0.ЗАМЕНИТЕ_НА_РЕАЛЬНЫЙ_КЛЮЧ';
-
-            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-            const pollOptions = ['Протеин', 'Креатин', 'Бета-аланин', 'Цитруллин малат', 'Другое'];
-
-            // Функция отображения результатов
-            function renderResults(records) {
-                const container = document.getElementById('pollResults');
-                const totalContainer = document.getElementById('pollTotal');
-                if (!records || records.length === 0) {
-                    container.innerHTML = '<p style="color:#6f7d9a; font-size:0.9rem;">Нет данных. Проголосуйте первым!</p>';
-                    totalContainer.textContent = '';
-                    return;
-                }
-                const total = records.reduce((sum, r) => sum + (r.count || 0), 0);
-                if (total === 0) {
-                    container.innerHTML = '<p style="color:#6f7d9a; font-size:0.9rem;">Пока нет голосов. Будьте первым!</p>';
-                    totalContainer.textContent = '';
-                    return;
-                }
-                let html = '';
-                records.forEach(r => {
-                    const percent = (r.count / total) * 100;
-                    html += `
-                        <div class="poll-result-item">
-                            <span style="min-width:90px;">${r.option}</span>
-                            <span class="votes">${r.count}</span>
-                            <div class="bar-bg">
-                                <div class="bar-fill" style="width:${percent}%;"></div>
-                            </div>
-                            <span class="percent">${percent.toFixed(1)}%</span>
-                        </div>
-                    `;
-                });
-                container.innerHTML = html;
-                totalContainer.textContent = `Всего голосов: ${total}`;
-            }
-
-            // Загрузка начальных данных
-            async function loadResults() {
-                const { data, error } = await supabase
-                    .from('votes')
-                    .select('*')
-                    .order('id');
-                if (error) {
-                    console.error('Ошибка загрузки:', error);
-                    return;
-                }
-                renderResults(data);
-            }
-
-            // Подписка на изменения в реальном времени
-            supabase
-                .channel('votes-channel')
-                .on('postgres_changes', {
-                    event: '*',
-                    schema: 'public',
-                    table: 'votes'
-                }, payload => {
-                    loadResults();
-                })
-                .subscribe();
-
-            // Первая загрузка
-            loadResults();
-
-            // Обработчик кнопки "Проголосовать"
-            document.getElementById('voteBtn').addEventListener('click', async function() {
-                const selected = document.querySelector('input[name="poll"]:checked');
-                if (!selected) {
-                    alert('Пожалуйста, выберите один из вариантов.');
-                    return;
-                }
-                const option = selected.value;
-
-                const { data, error } = await supabase
-                    .from('votes')
-                    .select('id, count')
-                    .eq('option', option)
-                    .single();
-
-                if (error) {
-                    alert('Ошибка при поиске варианта.');
-                    console.error(error);
-                    return;
-                }
-
-                const newCount = (data.count || 0) + 1;
-                const { error: updateError } = await supabase
-                    .from('votes')
-                    .update({ count: newCount })
-                    .eq('id', data.id);
-
-                if (updateError) {
-                    alert('Ошибка при голосовании. Попробуйте позже.');
-                    console.error(updateError);
-                }
             });
 
         });
