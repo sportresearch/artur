@@ -939,6 +939,37 @@
     </div>
   </section>
 
+  <!-- ═══════════ РАЗДЕЛ 8 — ОБРАТНАЯ СВЯЗЬ ═══════════ -->
+  <section id="feedback" style="background: #0d121c;">
+    <div class="container">
+      <h2 class="section-title">Обратная <span class="accent">связь</span></h2>
+      <p class="section-desc">Если у вас есть вопросы или предложения по проекту, напишите нам.</p>
+
+      <div class="feedback-form" id="feedbackForm">
+        <form id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">Ваше имя</label>
+            <input type="text" id="name" placeholder="Иван Иванов" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" placeholder="ivan@example.com" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Тема</label>
+            <input type="text" id="subject" placeholder="Вопрос по добавкам" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Сообщение</label>
+            <textarea id="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit">Отправить</button>
+          <div id="formMessage" class="form-message"></div>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════ FOOTER ═══════════ -->
   <footer>
     <div class="container">
@@ -1185,6 +1216,46 @@
             x: { grid: { display: false } }
           }
         }
+      });
+
+      // ---------- ОБРАБОТЧИК ФОРМЫ ----------
+      const form = document.getElementById('contactForm');
+      const messageDiv = document.getElementById('formMessage');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // Получаем значения
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const subject = document.getElementById('subject').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Простая валидация
+        if (!name || !email || !subject || !message) {
+          messageDiv.className = 'form-message error';
+          messageDiv.textContent = 'Пожалуйста, заполните все поля.';
+          return;
+        }
+
+        if (!email.includes('@') || !email.includes('.')) {
+          messageDiv.className = 'form-message error';
+          messageDiv.textContent = 'Введите корректный email.';
+          return;
+        }
+
+        // Имитация отправки
+        messageDiv.className = 'form-message success';
+        messageDiv.textContent = '✅ Спасибо! Ваше сообщение отправлено (демонстрация).';
+
+        // Очистка полей (опционально)
+        form.reset();
+
+        // Через 5 секунд скрыть сообщение
+        setTimeout(() => {
+          messageDiv.className = 'form-message';
+          messageDiv.textContent = '';
+        }, 5000);
       });
 
     });
