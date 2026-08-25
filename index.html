@@ -379,9 +379,9 @@
     </footer>
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // ---------- CHART.JS (без изменений) ----------
-        Chart.defaults.color = '#bcc6dd';
+        document.addEventListener('DOMContentLoaded', function () {
+            // ---------- CHART.JS ----------
+            Chart.defaults.color = '#bcc6dd';
             Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
             Chart.defaults.font.family = "'Inter', sans-serif";
 
@@ -424,8 +424,8 @@
                 options: {responsive: true, maintainAspectRatio: false, plugins: {legend: {labels: {color: '#d0d9ec', font: {size: 11}}}}, scales: {y: {beginAtZero: true, max: 7, grid: {color: 'rgba(255,255,255,0.04)'}}, x: {grid: {display: false}}}}
             });
 
-        // ---------- ФОРМА (без изменений) ----------
-        const form = document.getElementById('contactForm');
+            // ---------- ФОРМА ----------
+            const form = document.getElementById('contactForm');
             const msgDiv = document.getElementById('formMessage');
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -466,108 +466,108 @@
                 }, 6000);
             });
 
-        // ---------- ГОЛОСОВАНИЕ С SUPABASE + localStorage ----------
-        const SUPABASE_URL = 'https://xpcldnfppjcqpcrwjtpy.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xc2NlZWxhamhqbWN3eHdtampnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczOTk1OTcsImV4cCI6MjEwMjk3NTU5N30.G9JOF26jniyDT-pfNFqtKHtckxktlbDv3zLOPH_Da5o';
+            // ---------- ГОЛОСОВАНИЕ С SUPABASE + localStorage ----------
+            const SUPABASE_URL = 'https://xpcldnfppjcqpcrwjtpy.supabase.co';
+            const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9xc2NlZWxhamhqbWN3eHdtampnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODczOTk1OTcsImV4cCI6MjEwMjk3NTU5N30.G9JOF26jniyDT-pfNFqtKHtckxktlbDv3zLOPH_Da5o';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const POLL_KEY = 'has_voted_sport';
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+            const POLL_KEY = 'has_voted_sport';
 
-        function hasVoted() {
-            return localStorage.getItem(POLL_KEY) === 'true';
-        }
-
-        function disableVoting() {
-            const radios = document.querySelectorAll('input[name="poll"]');
-            radios.forEach(r => r.disabled = true);
-            const btn = document.getElementById('voteBtn');
-            btn.disabled = true;
-            btn.textContent = '✅ Вы уже проголосовали';
-        }
-
-        if (hasVoted()) {
-            disableVoting();
-        }
-
-        function renderResults(records) {
-            const container = document.getElementById('pollResults');
-            const totalContainer = document.getElementById('pollTotal');
-            if (!records || records.length === 0) {
-                container.innerHTML = '<p style="color:#6f7d9a;font-size:.9rem;">Нет данных. Проголосуйте первым!</p>';
-                totalContainer.textContent = '';
-                return;
+            function hasVoted() {
+                return localStorage.getItem(POLL_KEY) === 'true';
             }
-            const total = records.reduce((sum, r) => sum + (r.count || 0), 0);
-            if (total === 0) {
-                container.innerHTML = '<p style="color:#6f7d9a;font-size:.9rem;">Пока нет голосов. Будьте первым!</p>';
-                totalContainer.textContent = '';
-                return;
+
+            function disableVoting() {
+                const radios = document.querySelectorAll('input[name="poll"]');
+                radios.forEach(r => r.disabled = true);
+                const btn = document.getElementById('voteBtn');
+                btn.disabled = true;
+                btn.textContent = '✅ Вы уже проголосовали';
             }
-            let html = '';
-            records.forEach(r => {
-                const percent = (r.count / total) * 100;
-                html += `<div class="poll-result-item">
+
+            if (hasVoted()) {
+                disableVoting();
+            }
+
+            function renderResults(records) {
+                const container = document.getElementById('pollResults');
+                const totalContainer = document.getElementById('pollTotal');
+                if (!records || records.length === 0) {
+                    container.innerHTML = '<p style="color:#6f7d9a;font-size:.9rem;">Нет данных. Проголосуйте первым!</p>';
+                    totalContainer.textContent = '';
+                    return;
+                }
+                const total = records.reduce((sum, r) => sum + (r.count || 0), 0);
+                if (total === 0) {
+                    container.innerHTML = '<p style="color:#6f7d9a;font-size:.9rem;">Пока нет голосов. Будьте первым!</p>';
+                    totalContainer.textContent = '';
+                    return;
+                }
+                let html = '';
+                records.forEach(r => {
+                    const percent = (r.count / total) * 100;
+                    html += `<div class="poll-result-item">
                     <span style="min-width:90px;">${r.option}</span>
                     <span class="votes">${r.count}</span>
                     <div class="bar-bg"><div class="bar-fill" style="width:${percent}%;"></div></div>
                     <span class="percent">${percent.toFixed(1)}%</span>
                 </div>`;
+                });
+                container.innerHTML = html;
+                totalContainer.textContent = `Всего голосов: ${total}`;
+            }
+
+            async function loadResults() {
+                try {
+                    const {data, error} = await supabase.from('votes').select('*').order('id');
+                    if (error) throw error;
+                    renderResults(data);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+
+            async function vote(option) {
+                if (hasVoted()) {
+                    alert('Вы уже проголосовали!');
+                    return false;
+                }
+                try {
+                    const {data, error} = await supabase
+                        .from('votes')
+                        .select('id,count')
+                        .eq('option', option)
+                        .single();
+                    if (error) throw error;
+                    const newCount = (data.count || 0) + 1;
+                    const {error: updateError} = await supabase
+                        .from('votes')
+                        .update({count: newCount})
+                        .eq('id', data.id);
+                    if (updateError) throw updateError;
+                    localStorage.setItem(POLL_KEY, 'true');
+                    disableVoting();
+                    return true;
+                } catch (err) {
+                    console.error(err);
+                    alert('Ошибка голосования. Попробуйте позже.');
+                    return false;
+                }
+            }
+
+            loadResults();
+            setInterval(loadResults, 3000);
+
+            document.getElementById('voteBtn').addEventListener('click', async function () {
+                const selected = document.querySelector('input[name="poll"]:checked');
+                if (!selected) {
+                    alert('Выберите вариант.');
+                    return;
+                }
+                const success = await vote(selected.value);
+                if (success) loadResults();
             });
-            container.innerHTML = html;
-            totalContainer.textContent = `Всего голосов: ${total}`;
-        }
-
-        async function loadResults() {
-            try {
-                const { data, error } = await supabase.from('votes').select('*').order('id');
-                if (error) throw error;
-                renderResults(data);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function vote(option) {
-            if (hasVoted()) {
-                alert('Вы уже проголосовали!');
-                return false;
-            }
-            try {
-                const { data, error } = await supabase
-                    .from('votes')
-                    .select('id,count')
-                    .eq('option', option)
-                    .single();
-                if (error) throw error;
-                const newCount = (data.count || 0) + 1;
-                const { error: updateError } = await supabase
-                    .from('votes')
-                    .update({ count: newCount })
-                    .eq('id', data.id);
-                if (updateError) throw updateError;
-                localStorage.setItem(POLL_KEY, 'true');
-                disableVoting();
-                return true;
-            } catch (err) {
-                console.error(err);
-                alert('Ошибка голосования. Попробуйте позже.');
-                return false;
-            }
-        }
-
-        loadResults();
-        setInterval(loadResults, 3000);
-
-        document.getElementById('voteBtn').addEventListener('click', async function() {
-            const selected = document.querySelector('input[name="poll"]:checked');
-            if (!selected) {
-                alert('Выберите вариант.');
-                return;
-            }
-            const success = await vote(selected.value);
-            if (success) loadResults();
         });
-    });
-</script>
+    </script>
 </body>
 </html>
