@@ -1,36 +1,764 @@
-
 <!DOCTYPE html>
-<html lang="ru"> 
+<html lang="ru">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Мой журнал о спортивных добавках</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2">
     </script>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Inter',sans-serif;background:#0b0e14;color:#e8edf5;line-height:1.6}a{text-decoration:none;color:inherit}.container{max-width:1280px;margin:0 auto;padding:0 24px}::-webkit-scrollbar{height:6px;width:6px}::-webkit-scrollbar-track{background:#1a1f2b;border-radius:8px}::-webkit-scrollbar-thumb{background:#ff6b35;border-radius:8px}.navbar{position:fixed;top:0;left:0;width:100%;z-index:999;background:rgba(11,14,20,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 0}.navbar .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.nav-logo{font-weight:800;font-size:1.15rem;background:linear-gradient(135deg,#ff6b35,#ff9a56);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.3px}.nav-links{display:flex;flex-wrap:wrap;gap:6px 14px;list-style:none}.nav-links a{font-size:.8rem;font-weight:500;color:#a8b3c9;padding:4px 0;border-bottom:2px solid transparent;transition:.2s;letter-spacing:.2px;white-space:nowrap}.nav-links a:hover{color:#fff;border-bottom-color:#ff6b35}.hero{padding:120px 0 60px;background:radial-gradient(ellipse at 20% 40%,rgba(255,107,53,.1) 0%,transparent 60%),radial-gradient(ellipse at 80% 20%,rgba(255,154,86,.06) 0%,transparent 50%);border-bottom:1px solid rgba(255,255,255,.04)}.hero h1{font-size:clamp(2.4rem,6vw,4.2rem);font-weight:800;letter-spacing:-1px;line-height:1.1;background:linear-gradient(135deg,#fff 40%,#ff9a56);-webkit-background-clip:text;-webkit-text-fill-color:transparent}.hero .subtitle{font-size:1.1rem;color:#9aa8c4;margin-top:16px;max-width:620px}.hero .meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:20px 40px;font-size:.9rem;color:#bcc6dd}.hero .meta span{display:flex;align-items:center;gap:8px}.hero .meta .badge{background:#ff6b35;color:#fff;padding:2px 14px;border-radius:40px;font-weight:600;font-size:.75rem;-webkit-text-fill-color:#fff}section{padding:60px 0;border-bottom:1px solid rgba(255,255,255,.04)}section:last-of-type{border-bottom:none}.section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-.5px;margin-bottom:8px}.section-title .accent{color:#ff6b35}.section-desc{color:#9aa8c4;margin-bottom:32px;max-width:700px}.section-desc a{color:#ff9a56;text-decoration:underline;text-underline-offset:2px;transition:.2s}.section-desc a:hover{color:#fff}.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}.card{background:#141a26;border-radius:20px;padding:24px 22px;border:1px solid rgba(255,255,255,.06);transition:.25s}.card:hover{border-color:rgba(255,107,53,.25);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.4)}.card h3{font-size:1.1rem;font-weight:600;margin-bottom:6px}.card p{font-size:.92rem;color:#bcc6dd;line-height:1.5}.chart-scroll{overflow-x:auto;padding-bottom:16px;margin:0 -4px}.chart-scroll .chart-container{min-width:480px;max-width:100%;height:280px;background:#10161f;border-radius:20px;padding:16px 12px 8px;border:1px solid rgba(255,255,255,.05)}.chart-scroll .chart-container.tall{height:340px}.table-wrap{overflow-x:auto;margin:16px 0 24px;border-radius:16px;border:1px solid rgba(255,255,255,.06)}.table-wrap table{width:100%;min-width:680px;border-collapse:collapse;font-size:.85rem}.table-wrap th{background:#1a212e;color:#ff9a56;font-weight:600;padding:14px 16px;text-align:left;white-space:nowrap}.table-wrap td{padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.04);color:#d0d9ec;vertical-align:top}.table-wrap tr:last-child td{border-bottom:none}.table-wrap tr:hover td{background:rgba(255,107,53,.04)}.myth-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px}.myth-card{background:#10161f;border-radius:16px;padding:20px 22px;border-left:4px solid #ff6b35}.myth-card.myth{border-left-color:#e74c3c}.myth-card.truth{border-left-color:#2ecc71}.myth-card .label{font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}.myth-card .label.myth-label{color:#e74c3c}.myth-card .label.truth-label{color:#2ecc71}.myth-card h4{font-size:1rem;margin-bottom:4px}.myth-card p{font-size:.9rem;color:#bcc6dd;line-height:1.5}.nutrition-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:18px;margin:24px 0}.nutrition-item{background:#10161f;border-radius:16px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.05);transition:.2s}.nutrition-item:hover{border-color:#ff6b35;transform:scale(1.02)}.nutrition-item .emoji{font-size:2.8rem;display:block;margin-bottom:6px}.nutrition-item .name{font-weight:600;font-size:.9rem}.nutrition-item .desc{font-size:.75rem;color:#9aa8c4}.conclusion-box{background:linear-gradient(145deg,#141a26,#0e131e);border-radius:24px;padding:32px 36px;border:1px solid rgba(255,107,53,.15)}.conclusion-box p{font-size:1.05rem;color:#d0d9ec;max-width:800px}.feedback-poll-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start}.feedback-form,.poll-block{background:#10161f;border-radius:24px;padding:32px 28px;border:1px solid rgba(255,255,255,.06)}.feedback-form .form-group{margin-bottom:18px}.feedback-form label{display:block;font-weight:500;font-size:.9rem;color:#d0d9ec;margin-bottom:4px}.feedback-form input,.feedback-form textarea{width:100%;padding:12px 16px;background:#1a212e;border:1px solid rgba(255,255,255,.08);border-radius:12px;color:#e8edf5;font-size:.95rem;font-family:inherit;transition:.2s}.feedback-form input:focus,.feedback-form textarea:focus{outline:none;border-color:#ff6b35;box-shadow:0 0 0 3px rgba(255,107,53,.15)}.feedback-form textarea{min-height:120px;resize:vertical}.feedback-form .btn-submit{background:#ff6b35;border:none;border-radius:40px;padding:14px 36px;font-weight:600;font-size:1rem;color:#fff;cursor:pointer;transition:.25s;font-family:inherit}.feedback-form .btn-submit:hover{background:#ff8a5c;transform:scale(1.02)}.feedback-form .btn-submit:active{transform:scale(.98)}.feedback-form .form-message{margin-top:16px;padding:12px 16px;border-radius:12px;display:none}.feedback-form .form-message.success{display:block;background:rgba(46,204,113,.15);border:1px solid #2ecc71;color:#2ecc71}.feedback-form .form-message.error{display:block;background:rgba(231,76,60,.15);border:1px solid #e74c3c;color:#e74c3c}.feedback-form .form-message.info{display:block;background:rgba(52,152,219,.15);border:1px solid #3498db;color:#5dade2}.poll-block h3{font-size:1.25rem;font-weight:600;margin-bottom:12px;color:#fff}.poll-block .poll-question{font-size:.95rem;color:#bcc6dd;margin-bottom:16px}.poll-option{display:block;margin-bottom:10px;cursor:pointer;padding:8px 14px;background:#1a212e;border-radius:12px;border:1px solid rgba(255,255,255,.06);transition:.2s;font-size:.9rem}.poll-option:hover{border-color:#ff6b35}.poll-option input[type=radio]{margin-right:10px;accent-color:#ff6b35;transform:scale(1.1)}.poll-option label{cursor:pointer;color:#d0d9ec}.poll-block .btn-vote{background:#ff6b35;border:none;border-radius:40px;padding:12px 30px;font-weight:600;font-size:.95rem;color:#fff;cursor:pointer;transition:.25s;font-family:inherit;margin-top:6px;width:100%}.poll-block .btn-vote:hover{background:#ff8a5c}.poll-block .btn-vote:disabled{opacity:.5;cursor:not-allowed}.poll-results{margin-top:20px;border-top:1px solid rgba(255,255,255,.06);padding-top:16px}.poll-result-item{display:flex;align-items:center;gap:12px;margin-bottom:10px;font-size:.9rem;color:#d0d9ec}.poll-result-item .bar-bg{flex:1;height:8px;background:#1a212e;border-radius:20px;overflow:hidden}.poll-result-item .bar-fill{height:100%;border-radius:20px;background:#ff6b35;width:0%;transition:width .3s ease}.poll-result-item .percent{min-width:44px;text-align:right;font-weight:500;color:#ff9a56}.poll-result-item .votes{font-size:.75rem;color:#6f7d9a;min-width:30px}.poll-total{font-size:.8rem;color:#6f7d9a;margin-top:8px;text-align:right}.ref-list{list-style:none;display:flex;flex-direction:column;gap:6px}.ref-list li{font-size:.85rem;color:#b0bdd6;padding-left:20px;position:relative}.ref-list li::before{content:"•";position:absolute;left:0;color:#ff6b35}.ref-list li a{color:#ff9a56;text-decoration:underline;text-underline-offset:2px;transition:.2s}.ref-list li a:hover{color:#fff}footer{padding:32px 0 24px;border-top:1px solid rgba(255,255,255,.05);text-align:center;font-size:.8rem;color:#6f7d9a}@media(max-width:992px){.feedback-poll-grid{grid-template-columns:1fr;gap:20px}}@media(max-width:768px){.navbar .container{flex-direction:column;align-items:flex-start;gap:8px}.nav-links{gap:4px 10px}.nav-links a{font-size:.7rem}.hero{padding:170px 0 40px}section{padding:40px 0}.card-grid{grid-template-columns:1fr}.myth-grid{grid-template-columns:1fr}.conclusion-box{padding:24px 20px}.feedback-form,.poll-block{padding:24px 20px}.chart-scroll .chart-container{min-width:380px;height:220px}.chart-scroll .chart-container.tall{height:280px}.nutrition-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}}@media(max-width:480px){.container{padding:0 16px}.chart-scroll .chart-container{min-width:300px;height:190px}.chart-scroll .chart-container.tall{height:240px}.table-wrap table{min-width:520px;font-size:.75rem}.table-wrap th,.table-wrap td{padding:8px 10px}.poll-result-item{flex-wrap:wrap;gap:6px}.poll-result-item .bar-bg{flex:1 1 100%;order:3}.poll-result-item .percent{min-width:40px}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0b0e14;
+            color: #e8edf5;
+            line-height: 1.6
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px
+        }
+
+        ::-webkit-scrollbar {
+            height: 6px;
+            width: 6px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1f2b;
+            border-radius: 8px
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ff6b35;
+            border-radius: 8px
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 999;
+            background: rgba(11, 14, 20, .88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, .06);
+            padding: 14px 0
+        }
+
+        .navbar .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px
+        }
+
+        .nav-logo {
+            font-weight: 800;
+            font-size: 1.15rem;
+            background: linear-gradient(135deg, #ff6b35, #ff9a56);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -.3px
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 14px;
+            list-style: none
+        }
+
+        .nav-links a {
+            font-size: .8rem;
+            font-weight: 500;
+            color: #a8b3c9;
+            padding: 4px 0;
+            border-bottom: 2px solid transparent;
+            transition: .2s;
+            letter-spacing: .2px;
+            white-space: nowrap
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+            border-bottom-color: #ff6b35
+        }
+
+        .hero {
+            padding: 120px 0 60px;
+            background: radial-gradient(ellipse at 20% 40%, rgba(255, 107, 53, .1) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(255, 154, 86, .06) 0%, transparent 50%);
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 6vw, 4.2rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #fff 40%, #ff9a56);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: #9aa8c4;
+            margin-top: 16px;
+            max-width: 620px
+        }
+
+        .hero .meta {
+            margin-top: 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 40px;
+            font-size: .9rem;
+            color: #bcc6dd
+        }
+
+        .hero .meta span {
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .hero .meta .badge {
+            background: #ff6b35;
+            color: #fff;
+            padding: 2px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: .75rem;
+            -webkit-text-fill-color: #fff
+        }
+
+        section {
+            padding: 60px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        section:last-of-type {
+            border-bottom: none
+        }
+
+        .section-title {
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-weight: 700;
+            letter-spacing: -.5px;
+            margin-bottom: 8px
+        }
+
+        .section-title .accent {
+            color: #ff6b35
+        }
+
+        .section-desc {
+            color: #9aa8c4;
+            margin-bottom: 32px;
+            max-width: 700px
+        }
+
+        .section-desc a {
+            color: #ff9a56;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: .2s
+        }
+
+        .section-desc a:hover {
+            color: #fff
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px
+        }
+
+        .card {
+            background: #141a26;
+            border-radius: 20px;
+            padding: 24px 22px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            transition: .25s
+        }
+
+        .card:hover {
+            border-color: rgba(255, 107, 53, .25);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, .4)
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px
+        }
+
+        .card p {
+            font-size: .92rem;
+            color: #bcc6dd;
+            line-height: 1.5
+        }
+
+        .chart-scroll {
+            overflow-x: auto;
+            padding-bottom: 16px;
+            margin: 0 -4px
+        }
+
+        .chart-scroll .chart-container {
+            min-width: 480px;
+            max-width: 100%;
+            height: 280px;
+            background: #10161f;
+            border-radius: 20px;
+            padding: 16px 12px 8px;
+            border: 1px solid rgba(255, 255, 255, .05)
+        }
+
+        .chart-scroll .chart-container.tall {
+            height: 340px
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            margin: 16px 0 24px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .table-wrap table {
+            width: 100%;
+            min-width: 680px;
+            border-collapse: collapse;
+            font-size: .85rem
+        }
+
+        .table-wrap th {
+            background: #1a212e;
+            color: #ff9a56;
+            font-weight: 600;
+            padding: 14px 16px;
+            text-align: left;
+            white-space: nowrap
+        }
+
+        .table-wrap td {
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            color: #d0d9ec;
+            vertical-align: top
+        }
+
+        .table-wrap tr:last-child td {
+            border-bottom: none
+        }
+
+        .table-wrap tr:hover td {
+            background: rgba(255, 107, 53, .04)
+        }
+
+        .myth-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px
+        }
+
+        .myth-card {
+            background: #10161f;
+            border-radius: 16px;
+            padding: 20px 22px;
+            border-left: 4px solid #ff6b35
+        }
+
+        .myth-card.myth {
+            border-left-color: #e74c3c
+        }
+
+        .myth-card.truth {
+            border-left-color: #2ecc71
+        }
+
+        .myth-card .label {
+            font-weight: 700;
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            margin-bottom: 4px
+        }
+
+        .myth-card .label.myth-label {
+            color: #e74c3c
+        }
+
+        .myth-card .label.truth-label {
+            color: #2ecc71
+        }
+
+        .myth-card h4 {
+            font-size: 1rem;
+            margin-bottom: 4px
+        }
+
+        .myth-card p {
+            font-size: .9rem;
+            color: #bcc6dd;
+            line-height: 1.5
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 18px;
+            margin: 24px 0
+        }
+
+        .nutrition-item {
+            background: #10161f;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, .05);
+            transition: .2s
+        }
+
+        .nutrition-item:hover {
+            border-color: #ff6b35;
+            transform: scale(1.02)
+        }
+
+        .nutrition-item .emoji {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 6px
+        }
+
+        .nutrition-item .name {
+            font-weight: 600;
+            font-size: .9rem
+        }
+
+        .nutrition-item .desc {
+            font-size: .75rem;
+            color: #9aa8c4
+        }
+
+        .conclusion-box {
+            background: linear-gradient(145deg, #141a26, #0e131e);
+            border-radius: 24px;
+            padding: 32px 36px;
+            border: 1px solid rgba(255, 107, 53, .15)
+        }
+
+        .conclusion-box p {
+            font-size: 1.05rem;
+            color: #d0d9ec;
+            max-width: 800px
+        }
+
+        .feedback-poll-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start
+        }
+
+        .feedback-form,
+        .poll-block {
+            background: #10161f;
+            border-radius: 24px;
+            padding: 32px 28px;
+            border: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .feedback-form .form-group {
+            margin-bottom: 18px
+        }
+
+        .feedback-form label {
+            display: block;
+            font-weight: 500;
+            font-size: .9rem;
+            color: #d0d9ec;
+            margin-bottom: 4px
+        }
+
+        .feedback-form input,
+        .feedback-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: #1a212e;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 12px;
+            color: #e8edf5;
+            font-size: .95rem;
+            font-family: inherit;
+            transition: .2s
+        }
+
+        .feedback-form input:focus,
+        .feedback-form textarea:focus {
+            outline: none;
+            border-color: #ff6b35;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, .15)
+        }
+
+        .feedback-form textarea {
+            min-height: 120px;
+            resize: vertical
+        }
+
+        .feedback-form .btn-submit {
+            background: #ff6b35;
+            border: none;
+            border-radius: 40px;
+            padding: 14px 36px;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #fff;
+            cursor: pointer;
+            transition: .25s;
+            font-family: inherit
+        }
+
+        .feedback-form .btn-submit:hover {
+            background: #ff8a5c;
+            transform: scale(1.02)
+        }
+
+        .feedback-form .btn-submit:active {
+            transform: scale(.98)
+        }
+
+        .feedback-form .form-message {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            display: none
+        }
+
+        .feedback-form .form-message.success {
+            display: block;
+            background: rgba(46, 204, 113, .15);
+            border: 1px solid #2ecc71;
+            color: #2ecc71
+        }
+
+        .feedback-form .form-message.error {
+            display: block;
+            background: rgba(231, 76, 60, .15);
+            border: 1px solid #e74c3c;
+            color: #e74c3c
+        }
+
+        .feedback-form .form-message.info {
+            display: block;
+            background: rgba(52, 152, 219, .15);
+            border: 1px solid #3498db;
+            color: #5dade2
+        }
+
+        .poll-block h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff
+        }
+
+        .poll-block .poll-question {
+            font-size: .95rem;
+            color: #bcc6dd;
+            margin-bottom: 16px
+        }
+
+        .poll-option {
+            display: block;
+            margin-bottom: 10px;
+            cursor: pointer;
+            padding: 8px 14px;
+            background: #1a212e;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            transition: .2s;
+            font-size: .9rem
+        }
+
+        .poll-option:hover {
+            border-color: #ff6b35
+        }
+
+        .poll-option input[type=radio] {
+            margin-right: 10px;
+            accent-color: #ff6b35;
+            transform: scale(1.1)
+        }
+
+        .poll-option label {
+            cursor: pointer;
+            color: #d0d9ec
+        }
+
+        .poll-block .btn-vote {
+            background: #ff6b35;
+            border: none;
+            border-radius: 40px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: .95rem;
+            color: #fff;
+            cursor: pointer;
+            transition: .25s;
+            font-family: inherit;
+            margin-top: 6px;
+            width: 100%
+        }
+
+        .poll-block .btn-vote:hover {
+            background: #ff8a5c
+        }
+
+        .poll-block .btn-vote:disabled {
+            opacity: .5;
+            cursor: not-allowed
+        }
+
+        .poll-results {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, .06);
+            padding-top: 16px
+        }
+
+        .poll-result-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+            font-size: .9rem;
+            color: #d0d9ec
+        }
+
+        .poll-result-item .bar-bg {
+            flex: 1;
+            height: 8px;
+            background: #1a212e;
+            border-radius: 20px;
+            overflow: hidden
+        }
+
+        .poll-result-item .bar-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: #ff6b35;
+            width: 0%;
+            transition: width .3s ease
+        }
+
+        .poll-result-item .percent {
+            min-width: 44px;
+            text-align: right;
+            font-weight: 500;
+            color: #ff9a56
+        }
+
+        .poll-result-item .votes {
+            font-size: .75rem;
+            color: #6f7d9a;
+            min-width: 30px
+        }
+
+        .poll-total {
+            font-size: .8rem;
+            color: #6f7d9a;
+            margin-top: 8px;
+            text-align: right
+        }
+
+        .ref-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .ref-list li {
+            font-size: .85rem;
+            color: #b0bdd6;
+            padding-left: 20px;
+            position: relative
+        }
+
+        .ref-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #ff6b35
+        }
+
+        .ref-list li a {
+            color: #ff9a56;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: .2s
+        }
+
+        .ref-list li a:hover {
+            color: #fff
+        }
+
+        footer {
+            padding: 32px 0 24px;
+            border-top: 1px solid rgba(255, 255, 255, .05);
+            text-align: center;
+            font-size: .8rem;
+            color: #6f7d9a
+        }
+
+        @media(max-width:992px) {
+            .feedback-poll-grid {
+                grid-template-columns: 1fr;
+                gap: 20px
+            }
+        }
+
+        @media(max-width:768px) {
+            .navbar .container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px
+            }
+
+            .nav-links {
+                gap: 4px 10px
+            }
+
+            .nav-links a {
+                font-size: .7rem
+            }
+
+            .hero {
+                padding: 170px 0 40px
+            }
+
+            section {
+                padding: 40px 0
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr
+            }
+
+            .myth-grid {
+                grid-template-columns: 1fr
+            }
+
+            .conclusion-box {
+                padding: 24px 20px
+            }
+
+            .feedback-form,
+            .poll-block {
+                padding: 24px 20px
+            }
+
+            .chart-scroll .chart-container {
+                min-width: 380px;
+                height: 220px
+            }
+
+            .chart-scroll .chart-container.tall {
+                height: 280px
+            }
+
+            .nutrition-grid {
+                grid-template-columns: repeat(auto-fit, minmax(130px, 1fr))
+            }
+        }
+
+        @media(max-width:480px) {
+            .container {
+                padding: 0 16px
+            }
+
+            .chart-scroll .chart-container {
+                min-width: 300px;
+                height: 190px
+            }
+
+            .chart-scroll .chart-container.tall {
+                height: 240px
+            }
+
+            .table-wrap table {
+                min-width: 520px;
+                font-size: .75rem
+            }
+
+            .table-wrap th,
+            .table-wrap td {
+                padding: 8px 10px
+            }
+
+            .poll-result-item {
+                flex-wrap: wrap;
+                gap: 6px
+            }
+
+            .poll-result-item .bar-bg {
+                flex: 1 1 100%;
+                order: 3
+            }
+
+            .poll-result-item .percent {
+                min-width: 40px
+            }
+        }
     </style>
 
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript">
-    (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
-    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111851955', 'ym');
+    <!-- Yandex.Metrika counter -->
+    <script type="text/javascript">
+        (function (m, e, t, r, i, k, a) {
+            m[i] = m[i] || function () {(m[i].a = m[i].a || []).push(arguments)};
+            m[i].l = 1 * new Date();
+            for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) {return;} }
+            k = e.createElement(t), a = e.getElementsByTagName(t)[0], k.async = 1, k.src = r, a.parentNode.insertBefore(k, a)
+        })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=111851955', 'ym');
 
-    ym(111851955, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/111851955" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+        ym(111851955, 'init', {ssr: true, webvisor: true, clickmap: true, ecommerce: "dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce: true, trackLinks: true});
+    </script>
+    <noscript>
+        <div><img src="https://mc.yandex.ru/watch/111851955" style="position:absolute; left:-9999px;" alt="" /></div>
+    </noscript>
+    <!-- /Yandex.Metrika counter -->
 
 </head>
+
 <body>
 
     <!-- ===== NAV ===== -->
@@ -64,80 +792,132 @@
         </div>
     </header>
 
-        <!-- ===== СЕКЦИЯ – ВВОДНАЯ СТАТЬЯ ===== -->
+    <!-- ===== СЕКЦИЯ – ВВОДНАЯ СТАТЬЯ ===== -->
     <section id="overview">
         <div class="container">
-            <h2 class="section-title">Введение в мир спортивных добавок: <span class="accent">белки, креатин, бета‑аланин и цитруллин малат</span></h2>
-            
+            <h2 class="section-title">Введение в мир спортивных добавок: <span class="accent">белки, креатин,
+                    бета‑аланин и цитруллин малат</span></h2>
+
             <div style="color:#d0d9ec; line-height:1.8; font-size:1.05rem;">
                 <p style="margin-bottom:20px;">
-                    Спортивное питание — это не просто модный тренд, а продуманный инструмент, помогающий спортсменам достигать своих целей быстрее и эффективнее. Однако огромное количество информации в интернете часто запутывает новичков. В этом проекте мы разбираем четыре самые популярные спортивные добавки: <strong>протеин</strong>, <strong>креатин</strong>, <strong>бета‑аланин</strong> и <strong>цитруллин малат</strong>. В этом введении мы кратко расскажем, что это за вещества, как они работают и почему спортсмены их используют.
+                    Спортивное питание — это не просто модный тренд, а продуманный инструмент, помогающий спортсменам
+                    достигать своих целей быстрее и эффективнее. Однако огромное количество информации в интернете часто
+                    запутывает новичков. В этом проекте мы разбираем четыре самые популярные спортивные добавки:
+                    <strong>протеин</strong>, <strong>креатин</strong>, <strong>бета‑аланин</strong> и <strong>цитруллин
+                        малат</strong>. В этом введении мы кратко расскажем, что это за вещества, как они работают и
+                    почему спортсмены их используют.
                 </p>
 
                 <h3 style="color:#ff9a56; margin-top:30px; margin-bottom:12px;">🥛 Протеин (белки)</h3>
                 <p style="margin-bottom:16px;">
-                    Протеины, или белки, — это высокомолекулярные органические вещества, состоящие из аминокислот, соединённых в цепочку пептидной связью. В живых организмах аминокислотный состав белков определяется генетическим кодом, и для синтеза используется 20 стандартных аминокислот.
+                    Протеины, или белки, — это высокомолекулярные органические вещества, состоящие из аминокислот,
+                    соединённых в цепочку пептидной связью. В живых организмах аминокислотный состав белков определяется
+                    генетическим кодом, и для синтеза используется 20 стандартных аминокислот.
                 </p>
                 <p style="margin-bottom:16px;">
-                    Белки выполняют множество функций: они играют ключевую роль в иммунном ответе, выполняют транспортную функцию (например, гемоглобин переносит газы в крови), запасающую (казеин молока), каталитическую (пищеварительные ферменты) и структурную (кератин, коллаген).
+                    Белки выполняют множество функций: они играют ключевую роль в иммунном ответе, выполняют
+                    транспортную функцию (например, гемоглобин переносит газы в крови), запасающую (казеин молока),
+                    каталитическую (пищеварительные ферменты) и структурную (кератин, коллаген).
                 </p>
                 <p style="margin-bottom:20px;">
-                    В спортивном питании протеин используется как <strong>строительный материал для мышц</strong>. Он ускоряет восстановление и рост мышечной ткани, что особенно важно при высоких физических нагрузках. Добавки протеина — это концентрированный белок, который помогает восполнить суточную норму, не нагружая пищеварительную систему большим количеством обычной пищи. Именно поэтому протеин считается одной из самых популярных и эффективных добавок для роста силы и выносливости.
+                    В спортивном питании протеин используется как <strong>строительный материал для мышц</strong>. Он
+                    ускоряет восстановление и рост мышечной ткани, что особенно важно при высоких физических нагрузках.
+                    Добавки протеина — это концентрированный белок, который помогает восполнить суточную норму, не
+                    нагружая пищеварительную систему большим количеством обычной пищи. Именно поэтому протеин считается
+                    одной из самых популярных и эффективных добавок для роста силы и выносливости.
                 </p>
 
                 <h3 style="color:#ff9a56; margin-top:30px; margin-bottom:12px;">💪 Креатин</h3>
                 <p style="margin-bottom:16px;">
-                    Креатин — это азотсодержащая карбоновая кислота, которая встречается в организме позвоночных. Название происходит от древнегреческого κρέας (род. п. κρέατος) — «мясо». Креатин был выделен ещё в 1832 году из скелетных мышц.
+                    Креатин — это азотсодержащая карбоновая кислота, которая встречается в организме позвоночных.
+                    Название происходит от древнегреческого κρέας (род. п. κρέατος) — «мясо». Креатин был выделен ещё в
+                    1832 году из скелетных мышц.
                 </p>
                 <p style="margin-bottom:16px;">
-                    Его главная роль — <strong>участие в энергетическом обмене в мышечных и нервных клетках</strong>. Креатин помогает быстро восстанавливать запасы АТФ (аденозинтрифосфата) — основного источника энергии для мышечных сокращений. Это особенно важно во время <strong>кратковременной интенсивной активности</strong>, например, в спринте или при работе с большими весами.
+                    Его главная роль — <strong>участие в энергетическом обмене в мышечных и нервных клетках</strong>.
+                    Креатин помогает быстро восстанавливать запасы АТФ (аденозинтрифосфата) — основного источника
+                    энергии для мышечных сокращений. Это особенно важно во время <strong>кратковременной интенсивной
+                        активности</strong>, например, в спринте или при работе с большими весами.
                 </p>
                 <p style="margin-bottom:20px;">
-                    Креатин широко используется в виде биологически активных добавок, прежде всего в составе спортивного питания, для повышения эффективности физических нагрузок и увеличения мышечной массы. Существуют научные исследования, подтверждающие его эффективность для улучшения спортивных показателей у молодых и здоровых людей. Это одна из самых изученных и надёжных добавок в мире спорта.
+                    Креатин широко используется в виде биологически активных добавок, прежде всего в составе спортивного
+                    питания, для повышения эффективности физических нагрузок и увеличения мышечной массы. Существуют
+                    научные исследования, подтверждающие его эффективность для улучшения спортивных показателей у
+                    молодых и здоровых людей. Это одна из самых изученных и надёжных добавок в мире спорта.
                 </p>
 
                 <h3 style="color:#ff9a56; margin-top:30px; margin-bottom:12px;">⚡ Бета‑аланин</h3>
                 <p style="margin-bottom:16px;">
-                    Бета‑аланин — это заменимая аминокислота, которая в организме служит <strong>ограничивающим предшественником для синтеза карнозина</strong> — важнейшего внутриклеточного буфера в мышцах.
+                    Бета‑аланин — это заменимая аминокислота, которая в организме служит <strong>ограничивающим
+                        предшественником для синтеза карнозина</strong> — важнейшего внутриклеточного буфера в мышцах.
                 </p>
                 <p style="margin-bottom:16px;">
-                    Во время интенсивных упражнений в мышцах накапливаются ионы водорода (H⁺), что приводит к закислению и утомлению. Карнозин, образующийся из бета‑аланина, помогает <strong>нейтрализовать эти ионы</strong>, отсрочивая наступление усталости. Регулярный приём бета‑аланина увеличивает содержание карнозина в скелетных мышцах.
+                    Во время интенсивных упражнений в мышцах накапливаются ионы водорода (H⁺), что приводит к закислению
+                    и утомлению. Карнозин, образующийся из бета‑аланина, помогает <strong>нейтрализовать эти
+                        ионы</strong>, отсрочивая наступление усталости. Регулярный приём бета‑аланина увеличивает
+                    содержание карнозина в скелетных мышцах.
                 </p>
                 <p style="margin-bottom:20px;">
-                    Основное действие бета‑аланина — <strong>повышение выносливости в упражнениях длительностью от 1 до 4 минут</strong>, где высока нагрузка на гликолитическую систему энергообеспечения. Спортсмены используют его, чтобы отодвинуть момент закисления мышц и выполнить больше повторений или дольше удерживать интенсивный темп.
+                    Основное действие бета‑аланина — <strong>повышение выносливости в упражнениях длительностью от 1 до
+                        4 минут</strong>, где высока нагрузка на гликолитическую систему энергообеспечения. Спортсмены
+                    используют его, чтобы отодвинуть момент закисления мышц и выполнить больше повторений или дольше
+                    удерживать интенсивный темп.
                 </p>
 
                 <h3 style="color:#ff9a56; margin-top:30px; margin-bottom:12px;">🍏 Цитруллин малат</h3>
                 <p style="margin-bottom:16px;">
-                    Цитруллин малат — это комбинация аминокислоты L‑цитруллина и яблочной кислоты (малата). Его действие многогранно:
+                    Цитруллин малат — это комбинация аминокислоты L‑цитруллина и яблочной кислоты (малата). Его действие
+                    многогранно:
                 </p>
                 <ul style="margin-bottom:16px; padding-left:24px; list-style:disc;">
-                    <li style="margin-bottom:6px;"><strong>Улучшение кровотока</strong>: цитруллин является предшественником оксида азота (NO), который расширяет сосуды и улучшает доставку кислорода и питательных веществ к работающим мышцам.</li>
-                    <li style="margin-bottom:6px;"><strong>Повышение энергообразования</strong>: малат участвует в цикле трикарбоновых кислот (цикле Кребса), помогая производить больше АТФ — основного источника энергии в клетках.</li>
-                    <li style="margin-bottom:6px;"><strong>Ускорение выведения аммиака</strong>: цитруллин помогает связывать и выводить аммиак — токсичный продукт распада белков, который накапливается при интенсивных нагрузках.</li>
+                    <li style="margin-bottom:6px;"><strong>Улучшение кровотока</strong>: цитруллин является
+                        предшественником оксида азота (NO), который расширяет сосуды и улучшает доставку кислорода и
+                        питательных веществ к работающим мышцам.</li>
+                    <li style="margin-bottom:6px;"><strong>Повышение энергообразования</strong>: малат участвует в цикле
+                        трикарбоновых кислот (цикле Кребса), помогая производить больше АТФ — основного источника
+                        энергии в клетках.</li>
+                    <li style="margin-bottom:6px;"><strong>Ускорение выведения аммиака</strong>: цитруллин помогает
+                        связывать и выводить аммиак — токсичный продукт распада белков, который накапливается при
+                        интенсивных нагрузках.</li>
                 </ul>
                 <p style="margin-bottom:20px;">
-                    Благодаря этим свойствам цитруллин малат помогает <strong>улучшить пампинг, снизить утомляемость и ускорить восстановление</strong> после тренировок. Его часто используют для повышения выносливости и улучшения кровоснабжения мышц.
+                    Благодаря этим свойствам цитруллин малат помогает <strong>улучшить пампинг, снизить утомляемость и
+                        ускорить восстановление</strong> после тренировок. Его часто используют для повышения
+                    выносливости и улучшения кровоснабжения мышц.
                 </p>
 
                 <h3 style="color:#ff9a56; margin-top:30px; margin-bottom:12px;">Зачем это исследование?</h3>
                 <p style="margin-bottom:16px;">
-                    Каждая из этих добавок работает по‑своему и решает разные задачи. Однако у многих новичков возникает вопрос: «Что мне нужно?» — и они начинают самостоятельный поиск в интернете, часто натыкаясь на противоречивую или рекламную информацию.
+                    Каждая из этих добавок работает по‑своему и решает разные задачи. Однако у многих новичков возникает
+                    вопрос: «Что мне нужно?» — и они начинают самостоятельный поиск в интернете, часто натыкаясь на
+                    противоречивую или рекламную информацию.
                 </p>
                 <p style="margin-bottom:20px;">
-                    Цель нашего проекта — <strong>помочь вам разобраться</strong> в реальной эффективности этих добавок на основе научных данных и собственного исследования на фокус‑группе. Мы проанализировали мета‑анализы и систематические обзоры, а также провели практическое тестирование на спортсменах разного возраста. Результаты вы найдёте в следующих разделах.
+                    Цель нашего проекта — <strong>помочь вам разобраться</strong> в реальной эффективности этих добавок
+                    на основе научных данных и собственного исследования на фокус‑группе. Мы проанализировали
+                    мета‑анализы и систематические обзоры, а также провели практическое тестирование на спортсменах
+                    разного возраста. Результаты вы найдёте в следующих разделах.
                 </p>
 
-                <div style="background:#141a26; border-radius:16px; padding:20px 24px; margin-top:20px; border-left:4px solid #ff6b35;">
+                <div
+                    style="background:#141a26; border-radius:16px; padding:20px 24px; margin-top:20px; border-left:4px solid #ff6b35;">
                     <p style="font-weight:600; color:#ff9a56;">📌 Важно помнить:</p>
-                    <p style="color:#d0d9ec; margin-top:4px;">Ни одна добавка не заменит сбалансированное питание и регулярные тренировки. Используйте их как дополнительный инструмент, а не как волшебную таблетку.</p>
+                    <p style="color:#d0d9ec; margin-top:4px;">Ни одна добавка не заменит сбалансированное питание и
+                        регулярные тренировки. Используйте их как дополнительный инструмент, а не как волшебную
+                        таблетку.</p>
                 </div>
 
                 <!-- Ссылки на разделы -->
                 <div style="margin-top:30px; display:flex; flex-wrap:wrap; gap:16px;">
-                    <a href="#nutrition" style="background:#ff6b35; padding:10px 24px; border-radius:40px; color:#fff; font-weight:600; transition:.25s;">Перейти к описанию добавок →</a>
-                    <a href="#sideeffects" style="background:#2ecc71; padding:10px 24px; border-radius:40px; color:#0b0e14; font-weight:600; transition:.25s;">Посмотреть побочные эффекты →</a>
-                    <a href="#results" style="background:#3498db; padding:10px 24px; border-radius:40px; color:#fff; font-weight:600; transition:.25s;">Изучить результаты мета-анализов →</a>
+                    <a href="#nutrition"
+                        style="background:#ff6b35; padding:10px 24px; border-radius:40px; color:#fff; font-weight:600; transition:.25s;">Перейти
+                        к описанию добавок →</a>
+                    <a href="#sideeffects"
+                        style="background:#2ecc71; padding:10px 24px; border-radius:40px; color:#0b0e14; font-weight:600; transition:.25s;">Посмотреть
+                        побочные эффекты →</a>
+                    <a href="#results"
+                        style="background:#3498db; padding:10px 24px; border-radius:40px; color:#fff; font-weight:600; transition:.25s;">Изучить
+                        результаты мета-анализов →</a>
                 </div>
             </div>
         </div>
@@ -157,9 +937,21 @@
                 Только РКИ, спортсмены от любителей до элиты, общий пул &gt;3500 атлетов.
             </p>
             <div class="card-grid">
-                <div class="card"><h3>📋 Критерии отбора</h3><p>Только рандомизированные контролируемые испытания (РКИ). Образцы: спортсмены различной квалификации. Период: 1999–2025 гг.</p></div>
-                <div class="card"><h3>📊 Фиксация параметров</h3><p>Сила (1ПМ), прыгучесть, спринт, композиция тела, восстановление (ЧСС, лактат), субъективное самочувствие. Периодичность: 2–4 недели.</p></div>
-                <div class="card"><h3>🔬 Инструменты</h3><p>Динамометр, мобильное приложение MyJump, секундомер с фотоэлементом, биоимпеданс/калипер, пульсометр, лактатметр.</p></div>
+                <div class="card">
+                    <h3>📋 Критерии отбора</h3>
+                    <p>Только рандомизированные контролируемые испытания (РКИ). Образцы: спортсмены различной
+                        квалификации. Период: 1999–2025 гг.</p>
+                </div>
+                <div class="card">
+                    <h3>📊 Фиксация параметров</h3>
+                    <p>Сила (1ПМ), прыгучесть, спринт, композиция тела, восстановление (ЧСС, лактат), субъективное
+                        самочувствие. Периодичность: 2–4 недели.</p>
+                </div>
+                <div class="card">
+                    <h3>🔬 Инструменты</h3>
+                    <p>Динамометр, мобильное приложение MyJump, секундомер с фотоэлементом, биоимпеданс/калипер,
+                        пульсометр, лактатметр.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -171,18 +963,27 @@
             <p class="section-desc">Стандартизированная средняя разница (SMD) — эффект добавок.</p>
 
             <h3 style="margin-top:8px;font-weight:600;">🥛 Протеин</h3>
-            <div class="chart-scroll"><div class="chart-container"><canvas id="chartProtein"></canvas></div></div>
+            <div class="chart-scroll">
+                <div class="chart-container"><canvas id="chartProtein"></canvas></div>
+            </div>
 
             <h3 style="margin-top:28px;font-weight:600;">💪 Креатин</h3>
-            <div class="chart-scroll"><div class="chart-container"><canvas id="chartCreatine"></canvas></div></div>
+            <div class="chart-scroll">
+                <div class="chart-container"><canvas id="chartCreatine"></canvas></div>
+            </div>
 
             <h3 style="margin-top:28px;font-weight:600;">⚡ Бета-аланин &amp; Кофеин</h3>
-            <div class="chart-scroll"><div class="chart-container"><canvas id="chartBetaCaffeine"></canvas></div></div>
+            <div class="chart-scroll">
+                <div class="chart-container"><canvas id="chartBetaCaffeine"></canvas></div>
+            </div>
 
             <h3 style="margin-top:28px;font-weight:600;">🔗 Комбинации</h3>
-            <div class="chart-scroll"><div class="chart-container tall"><canvas id="chartCombos"></canvas></div></div>
+            <div class="chart-scroll">
+                <div class="chart-container tall"><canvas id="chartCombos"></canvas></div>
+            </div>
 
-            <div style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(255,107,53,.12);">
+            <div
+                style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(255,107,53,.12);">
                 <p style="font-weight:600;color:#ff9a56;">⚠️ Что НЕ работает</p>
                 <ul style="list-style:none;margin-top:8px;display:flex;flex-wrap:wrap;gap:6px 24px;">
                     <li style="color:#bcc6dd;">✖ VO₂max — ни одна добавка не показала значимого эффекта</li>
@@ -190,11 +991,14 @@
                     <li style="color:#bcc6dd;">✖ BCAA — не показали преимуществ перед полноценным протеином</li>
                 </ul>
             </div>
-            <div style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(46,204,113,.15);">
+            <div
+                style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(46,204,113,.15);">
                 <p style="font-weight:600;color:#2ecc71;">✅ Ключевые выводы</p>
                 <ul style="list-style:none;margin-top:8px;display:flex;flex-wrap:wrap;gap:4px 20px;">
-                    <li style="color:#d0d9ec;">1. Протеин — наиболее эффективен для силы, выносливости и пиковой мощности.</li>
-                    <li style="color:#d0d9ec;">2. Креатин — единственная добавка с подтверждённым эффектом на спринт и прыжки.</li>
+                    <li style="color:#d0d9ec;">1. Протеин — наиболее эффективен для силы, выносливости и пиковой
+                        мощности.</li>
+                    <li style="color:#d0d9ec;">2. Креатин — единственная добавка с подтверждённым эффектом на спринт и
+                        прыжки.</li>
                     <li style="color:#d0d9ec;">3. Кофеин и бикарбонат натрия работают, но эффект малый.</li>
                     <li style="color:#d0d9ec;">4. Ни одна добавка не заменяет сбалансированное питание.</li>
                     <li style="color:#d0d9ec;">5. Индивидуальная изменчивость — ключевой фактор.</li>
@@ -209,19 +1013,41 @@
             <h2 class="section-title">Основное <span class="accent">спортивное питание</span></h2>
             <p class="section-desc">Краткий обзор ключевых добавок.</p>
             <div class="card-grid">
-                <div class="card"><h3>🧪 Креатин</h3><p>Натуральная азотсодержащая кислота. Главный источник энергии для быстрых, мощных мышечных сокращений и работы мозга.</p></div>
-                <div class="card"><h3>🧬 Бета-аланин</h3><p>Заменимая аминокислота. Повышает выносливость, синтезирует карнозин, уменьшает накопление молочной кислоты.</p></div>
-                <div class="card"><h3>🥛 Протеин</h3><p>Чистый белок — основной строительный материал для тканей. Используется для роста мышц, восстановления, похудения.</p></div>
-                <div class="card"><h3>🍏 Цитруллин малат</h3><p>L-цитруллин + яблочная кислота. Повышает выносливость, улучшает кровообращение, ускоряет восстановление.</p></div>
+                <div class="card">
+                    <h3>🧪 Креатин</h3>
+                    <p>Натуральная азотсодержащая кислота. Главный источник энергии для быстрых, мощных мышечных
+                        сокращений и работы мозга.</p>
+                </div>
+                <div class="card">
+                    <h3>🧬 Бета-аланин</h3>
+                    <p>Заменимая аминокислота. Повышает выносливость, синтезирует карнозин, уменьшает накопление
+                        молочной кислоты.</p>
+                </div>
+                <div class="card">
+                    <h3>🥛 Протеин</h3>
+                    <p>Чистый белок — основной строительный материал для тканей. Используется для роста мышц,
+                        восстановления, похудения.</p>
+                </div>
+                <div class="card">
+                    <h3>🍏 Цитруллин малат</h3>
+                    <p>L-цитруллин + яблочная кислота. Повышает выносливость, улучшает кровообращение, ускоряет
+                        восстановление.</p>
+                </div>
             </div>
             <h3 style="margin-top:32px;font-weight:600;">🍽️ Варианты натурального питания</h3>
             <div class="nutrition-grid">
-                <div class="nutrition-item"><span class="emoji">🥛</span><span class="name">Шоколадное молоко</span><br><span class="desc">Заменяет восстановительные напитки</span></div>
-                <div class="nutrition-item"><span class="emoji">🧃</span><span class="name">Сок + соль</span><br><span class="desc">Домашний спортивный напиток</span></div>
-                <div class="nutrition-item"><span class="emoji">🥥</span><span class="name">Кокосовая вода</span><br><span class="desc">Не уступает электролитным</span></div>
-                <div class="nutrition-item"><span class="emoji">🥩</span><span class="name">Вяленая говядина</span><br><span class="desc">Содержит лейцин, заменяет BCAA</span></div>
-                <div class="nutrition-item"><span class="emoji">🥚</span><span class="name">Яйца</span><br><span class="desc">Полноценный белок</span></div>
-                <div class="nutrition-item"><span class="emoji">🐟</span><span class="name">Рыба</span><br><span class="desc">Омега-3 + белок</span></div>
+                <div class="nutrition-item"><span class="emoji">🥛</span><span class="name">Шоколадное
+                        молоко</span><br><span class="desc">Заменяет восстановительные напитки</span></div>
+                <div class="nutrition-item"><span class="emoji">🧃</span><span class="name">Сок + соль</span><br><span
+                        class="desc">Домашний спортивный напиток</span></div>
+                <div class="nutrition-item"><span class="emoji">🥥</span><span class="name">Кокосовая
+                        вода</span><br><span class="desc">Не уступает электролитным</span></div>
+                <div class="nutrition-item"><span class="emoji">🥩</span><span class="name">Вяленая
+                        говядина</span><br><span class="desc">Содержит лейцин, заменяет BCAA</span></div>
+                <div class="nutrition-item"><span class="emoji">🥚</span><span class="name">Яйца</span><br><span
+                        class="desc">Полноценный белок</span></div>
+                <div class="nutrition-item"><span class="emoji">🐟</span><span class="name">Рыба</span><br><span
+                        class="desc">Омега-3 + белок</span></div>
             </div>
         </div>
     </section>
@@ -232,16 +1058,60 @@
             <h2 class="section-title">Правда и <span class="accent">мифы</span> о спортивном питании</h2>
             <p class="section-desc">Разбираем популярные заблуждения.</p>
             <div class="myth-grid">
-                <div class="myth-card myth"><div class="label myth-label">❌ Миф</div><h4>Аминокислоты в таблетках лучше протеина</h4><p>Научных доказательств нет. BCAA не показали преимуществ перед полноценным белком из мяса или яиц.</p></div>
-                <div class="myth-card truth"><div class="label truth-label">✅ Правда</div><h4>Натуральная еда не хуже спортпита</h4><p>Шоколадное молоко, сок с солью, кокосовая вода, вяленая говядина — эффективны и доступны.</p></div>
-                <div class="myth-card myth"><div class="label myth-label">❌ Миф</div><h4>Жиросжигатели быстро и безопасно убирают жир</h4><p>Большинство содержат кофеин и стимуляторы. Временное повышение метаболизма, стабильного снижения веса нет.</p></div>
-                <div class="myth-card truth"><div class="label truth-label">✅ Правда</div><h4>Кофеин действительно работает</h4><p>200–400 мг за 30–60 минут до тренировки достоверно улучшают выносливость.</p></div>
-                <div class="myth-card myth"><div class="label myth-label">❌ Миф</div><h4>Спортпит — это химия и допинг</h4><p>Это концентрированные формы обычных пищевых веществ (сывороточный белок из молока, креатин из мяса).</p></div>
-                <div class="myth-card truth"><div class="label truth-label">✅ Правда</div><h4>При дефиците калорий мышцы не растут</h4><p>Без энергетического профицита синтез белка ограничен. Добавки не помогут.</p></div>
-                <div class="myth-card myth"><div class="label myth-label">❌ Миф</div><h4>Чем больше спортпита, тем лучше результат</h4><p>Большие дозировки не решают проблему. Прогресс требует сбалансированного рациона и систематических тренировок.</p></div>
-                <div class="myth-card truth"><div class="label truth-label">✅ Правда</div><h4>Большинству любителей спортпит не нужен</h4><p>При тренировках до 60 минут и сбалансированном питании добавки не дают преимуществ.</p></div>
-                <div class="myth-card myth"><div class="label myth-label">❌ Миф</div><h4>Спортпит вызывает привыкание и вредит потенции</h4><p>Никаких доказательств привыкания нет. Производители и спортсмены опровергают миф.</p></div>
-                <div class="myth-card truth"><div class="label truth-label">✅ Правда</div><h4>Дорогой импорт ≠ качественнее российского</h4><p>Сырьё часто закупается у одних производителей. Разница в цене — логистика и курс валют.</p></div>
+                <div class="myth-card myth">
+                    <div class="label myth-label">❌ Миф</div>
+                    <h4>Аминокислоты в таблетках лучше протеина</h4>
+                    <p>Научных доказательств нет. BCAA не показали преимуществ перед полноценным белком из мяса или яиц.
+                    </p>
+                </div>
+                <div class="myth-card truth">
+                    <div class="label truth-label">✅ Правда</div>
+                    <h4>Натуральная еда не хуже спортпита</h4>
+                    <p>Шоколадное молоко, сок с солью, кокосовая вода, вяленая говядина — эффективны и доступны.</p>
+                </div>
+                <div class="myth-card myth">
+                    <div class="label myth-label">❌ Миф</div>
+                    <h4>Жиросжигатели быстро и безопасно убирают жир</h4>
+                    <p>Большинство содержат кофеин и стимуляторы. Временное повышение метаболизма, стабильного снижения
+                        веса нет.</p>
+                </div>
+                <div class="myth-card truth">
+                    <div class="label truth-label">✅ Правда</div>
+                    <h4>Кофеин действительно работает</h4>
+                    <p>200–400 мг за 30–60 минут до тренировки достоверно улучшают выносливость.</p>
+                </div>
+                <div class="myth-card myth">
+                    <div class="label myth-label">❌ Миф</div>
+                    <h4>Спортпит — это химия и допинг</h4>
+                    <p>Это концентрированные формы обычных пищевых веществ (сывороточный белок из молока, креатин из
+                        мяса).</p>
+                </div>
+                <div class="myth-card truth">
+                    <div class="label truth-label">✅ Правда</div>
+                    <h4>При дефиците калорий мышцы не растут</h4>
+                    <p>Без энергетического профицита синтез белка ограничен. Добавки не помогут.</p>
+                </div>
+                <div class="myth-card myth">
+                    <div class="label myth-label">❌ Миф</div>
+                    <h4>Чем больше спортпита, тем лучше результат</h4>
+                    <p>Большие дозировки не решают проблему. Прогресс требует сбалансированного рациона и
+                        систематических тренировок.</p>
+                </div>
+                <div class="myth-card truth">
+                    <div class="label truth-label">✅ Правда</div>
+                    <h4>Большинству любителей спортпит не нужен</h4>
+                    <p>При тренировках до 60 минут и сбалансированном питании добавки не дают преимуществ.</p>
+                </div>
+                <div class="myth-card myth">
+                    <div class="label myth-label">❌ Миф</div>
+                    <h4>Спортпит вызывает привыкание и вредит потенции</h4>
+                    <p>Никаких доказательств привыкания нет. Производители и спортсмены опровергают миф.</p>
+                </div>
+                <div class="myth-card truth">
+                    <div class="label truth-label">✅ Правда</div>
+                    <h4>Дорогой импорт ≠ качественнее российского</h4>
+                    <p>Сырьё часто закупается у одних производителей. Разница в цене — логистика и курс валют.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -253,23 +1123,76 @@
             <p class="section-desc">Казань, ноябрь – апрель 2026. 5 участников, возраст 16–30 лет.</p>
             <div class="table-wrap">
                 <table>
-                    <thead><tr><th>Участник</th><th>Возраст</th><th>Креатин (кг)</th><th>Бета-аланин (кг)</th><th>Протеин / BCAA (кг)</th><th>Цитруллин малат (кг)</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th>Участник</th>
+                            <th>Возраст</th>
+                            <th>Креатин (кг)</th>
+                            <th>Бета-аланин (кг)</th>
+                            <th>Протеин / BCAA (кг)</th>
+                            <th>Цитруллин малат (кг)</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td>Участник 1</td><td>16</td><td>3.0</td><td>3.8</td><td>4.2</td><td>1.3</td></tr>
-                        <tr><td>Участник 2</td><td>16</td><td>2.6</td><td>3.0</td><td>3.5</td><td>1.2</td></tr>
-                        <tr><td>Участник 3</td><td>21</td><td>3.2</td><td>4.0</td><td>4.5</td><td>1.6</td></tr>
-                        <tr><td>Участник 4</td><td>30</td><td>1.9</td><td>2.9</td><td>3.1</td><td>0.9</td></tr>
-                        <tr><td>Участник 5</td><td>18</td><td>4.1</td><td>4.7</td><td>6.0</td><td>2.2</td></tr>
+                        <tr>
+                            <td>Участник 1</td>
+                            <td>16</td>
+                            <td>3.0</td>
+                            <td>3.8</td>
+                            <td>4.2</td>
+                            <td>1.3</td>
+                        </tr>
+                        <tr>
+                            <td>Участник 2</td>
+                            <td>16</td>
+                            <td>2.6</td>
+                            <td>3.0</td>
+                            <td>3.5</td>
+                            <td>1.2</td>
+                        </tr>
+                        <tr>
+                            <td>Участник 3</td>
+                            <td>21</td>
+                            <td>3.2</td>
+                            <td>4.0</td>
+                            <td>4.5</td>
+                            <td>1.6</td>
+                        </tr>
+                        <tr>
+                            <td>Участник 4</td>
+                            <td>30</td>
+                            <td>1.9</td>
+                            <td>2.9</td>
+                            <td>3.1</td>
+                            <td>0.9</td>
+                        </tr>
+                        <tr>
+                            <td>Участник 5</td>
+                            <td>18</td>
+                            <td>4.1</td>
+                            <td>4.7</td>
+                            <td>6.0</td>
+                            <td>2.2</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
             <h3 style="margin-top:8px;font-weight:600;">📈 Прирост сухой массы (среднее)</h3>
-            <div class="chart-scroll"><div class="chart-container tall"><canvas id="chartFocusAvg"></canvas></div></div>
+            <div class="chart-scroll">
+                <div class="chart-container tall"><canvas id="chartFocusAvg"></canvas></div>
+            </div>
             <h3 style="margin-top:28px;font-weight:600;">🧑‍🤝‍🧑 Индивидуальный разброс</h3>
-            <div class="chart-scroll"><div class="chart-container tall"><canvas id="chartFocusIndividuals"></canvas></div></div>
-            <div style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(255,107,53,.12);">
+            <div class="chart-scroll">
+                <div class="chart-container tall"><canvas id="chartFocusIndividuals"></canvas></div>
+            </div>
+            <div
+                style="margin-top:24px;background:#10161f;border-radius:16px;padding:20px 24px;border:1px solid rgba(255,107,53,.12);">
                 <p style="font-weight:600;color:#ff9a56;">📌 Вывод по фокус-группе</p>
-                <p style="color:#d0d9ec;margin-top:6px;">Наибольшее влияние на прирост сухой мышечной массы оказывает <strong style="color:#fff;">Протеин / BCAA</strong>, далее <strong style="color:#fff;">Бета-аланин</strong>, <strong style="color:#fff;">Креатин</strong> и <strong style="color:#fff;">Цитруллин малат</strong>. Атлеты 18–20 лет показали лучшие результаты, чем более молодые и спортсмены старше 30 лет.</p>
+                <p style="color:#d0d9ec;margin-top:6px;">Наибольшее влияние на прирост сухой мышечной массы оказывает
+                    <strong style="color:#fff;">Протеин / BCAA</strong>, далее <strong
+                        style="color:#fff;">Бета-аланин</strong>, <strong style="color:#fff;">Креатин</strong> и <strong
+                        style="color:#fff;">Цитруллин малат</strong>. Атлеты 18–20 лет показали лучшие результаты, чем
+                    более молодые и спортсмены старше 30 лет.</p>
             </div>
         </div>
     </section>
@@ -280,14 +1203,38 @@
             <h2 class="section-title">Анализ <span class="accent">побочных эффектов</span></h2>
             <p class="section-desc">Наблюдения у фокус-группы.</p>
             <div class="card-grid">
-                <div class="card"><h3>🧪 Креатин</h3><p><span style="color:#e74c3c;">Возможные:</span> отеки, повреждение почек, расстройства ЖКТ.</p><p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> незначительные отеки у 2 участников в первые 2 недели, учащённое мочеиспускание.</p></div>
-                <div class="card"><h3>🧬 Бета-аланин</h3><p><span style="color:#e74c3c;">Возможные:</span> зуд, жжение кожи, головная боль, скачки давления.</p><p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> ощущение «иголочек» или мурашек, других эффектов не было.</p></div>
-                <div class="card"><h3>🥛 Протеин / BCAA</h3><p><span style="color:#e74c3c;">Возможные:</span> тошнота, рвота, диарея, вздутие, нарушение координации.</p><p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> у 4-х участников периодическая диарея и тошнота.</p></div>
-                <div class="card"><h3>🍏 Цитруллин малат</h3><p><span style="color:#e74c3c;">Возможные:</span> боль, рези, дискомфорт в желудке, аллергия.</p><p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> в первую неделю у 2 участников дискомфорт в ЖКТ, прошёл.</p></div>
+                <div class="card">
+                    <h3>🧪 Креатин</h3>
+                    <p><span style="color:#e74c3c;">Возможные:</span> отеки, повреждение почек, расстройства ЖКТ.</p>
+                    <p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> незначительные отеки у 2
+                        участников в первые 2 недели, учащённое мочеиспускание.</p>
+                </div>
+                <div class="card">
+                    <h3>🧬 Бета-аланин</h3>
+                    <p><span style="color:#e74c3c;">Возможные:</span> зуд, жжение кожи, головная боль, скачки давления.
+                    </p>
+                    <p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> ощущение «иголочек» или
+                        мурашек, других эффектов не было.</p>
+                </div>
+                <div class="card">
+                    <h3>🥛 Протеин / BCAA</h3>
+                    <p><span style="color:#e74c3c;">Возможные:</span> тошнота, рвота, диарея, вздутие, нарушение
+                        координации.</p>
+                    <p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> у 4-х участников
+                        периодическая диарея и тошнота.</p>
+                </div>
+                <div class="card">
+                    <h3>🍏 Цитруллин малат</h3>
+                    <p><span style="color:#e74c3c;">Возможные:</span> боль, рези, дискомфорт в желудке, аллергия.</p>
+                    <p style="margin-top:6px;"><span style="color:#2ecc71;">Наблюдалось:</span> в первую неделю у 2
+                        участников дискомфорт в ЖКТ, прошёл.</p>
+                </div>
             </div>
-            <div style="margin-top:24px;background:#10161f;border-radius:16px;padding:18px 24px;border-left:4px solid #2ecc71;">
+            <div
+                style="margin-top:24px;background:#10161f;border-radius:16px;padding:18px 24px;border-left:4px solid #2ecc71;">
                 <p style="font-weight:600;color:#2ecc71;">✅ Общий вывод</p>
-                <p style="color:#d0d9ec;">Спортивные добавки не оказали существенно негативного влияния на организмы участников фокус-группы. Побочные эффекты были незначительными.</p>
+                <p style="color:#d0d9ec;">Спортивные добавки не оказали существенно негативного влияния на организмы
+                    участников фокус-группы. Побочные эффекты были незначительными.</p>
             </div>
         </div>
     </section>
@@ -297,8 +1244,14 @@
         <div class="container">
             <h2 class="section-title">Заключение</h2>
             <div class="conclusion-box">
-                <p>Спортивное питание — это <strong>инструмент</strong>, а не волшебная таблетка. Оно эффективно при грамотном использовании (знание состава, дозировок, времени приёма) и в условиях сбалансированной диеты. Без системных тренировок и контроля питания никакие добавки не дадут результата. Многие разрекламированные продукты (кофеин, жиросжигатели, аминокислотные комплексы) не имеют научных доказательств эффективности.</p>
-                <p style="margin-top:16px;color:#bcc6dd;">Используя материалы данного проекта, можно помочь спортсменам, желающим улучшить свои показатели, перестроить режим питания и тренировок, рекомендовать использование спортивных добавок исходя из особенностей организма.</p>
+                <p>Спортивное питание — это <strong>инструмент</strong>, а не волшебная таблетка. Оно эффективно при
+                    грамотном использовании (знание состава, дозировок, времени приёма) и в условиях сбалансированной
+                    диеты. Без системных тренировок и контроля питания никакие добавки не дадут результата. Многие
+                    разрекламированные продукты (кофеин, жиросжигатели, аминокислотные комплексы) не имеют научных
+                    доказательств эффективности.</p>
+                <p style="margin-top:16px;color:#bcc6dd;">Используя материалы данного проекта, можно помочь спортсменам,
+                    желающим улучшить свои показатели, перестроить режим питания и тренировок, рекомендовать
+                    использование спортивных добавок исходя из особенностей организма.</p>
             </div>
         </div>
     </section>
@@ -314,10 +1267,15 @@
                         <input type="hidden" name="_captcha" value="false" />
                         <input type="hidden" name="_template" value="table" />
                         <input type="hidden" name="_subject" value="Новое сообщение с сайта о спортивных добавках" />
-                        <div class="form-group"><label for="name">Ваше имя</label><input type="text" id="name" name="name" placeholder="Иван Иванов" required /></div>
-                        <div class="form-group"><label for="email">Email</label><input type="email" id="email" name="email" placeholder="ivan@example.com" required /></div>
-                        <div class="form-group"><label for="subject">Тема</label><input type="text" id="subject" name="subject" placeholder="Вопрос по добавкам" required /></div>
-                        <div class="form-group"><label for="message">Сообщение</label><textarea id="message" name="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea></div>
+                        <div class="form-group"><label for="name">Ваше имя</label><input type="text" id="name"
+                                name="name" placeholder="Иван Иванов" required /></div>
+                        <div class="form-group"><label for="email">Email</label><input type="email" id="email"
+                                name="email" placeholder="ivan@example.com" required /></div>
+                        <div class="form-group"><label for="subject">Тема</label><input type="text" id="subject"
+                                name="subject" placeholder="Вопрос по добавкам" required /></div>
+                        <div class="form-group"><label for="message">Сообщение</label><textarea id="message"
+                                name="message" placeholder="Напишите свой вопрос или отзыв..." required></textarea>
+                        </div>
                         <button type="submit" class="btn-submit">Отправить</button>
                         <div id="formMessage" class="form-message"></div>
                     </form>
@@ -329,8 +1287,10 @@
                     <div id="pollOptions">
                         <label class="poll-option"><input type="radio" name="poll" value="Протеин" /> Протеин</label>
                         <label class="poll-option"><input type="radio" name="poll" value="Креатин" /> Креатин</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Бета-аланин" /> Бета-аланин</label>
-                        <label class="poll-option"><input type="radio" name="poll" value="Цитруллин малат" /> Цитруллин малат</label>
+                        <label class="poll-option"><input type="radio" name="poll" value="Бета-аланин" />
+                            Бета-аланин</label>
+                        <label class="poll-option"><input type="radio" name="poll" value="Цитруллин малат" /> Цитруллин
+                            малат</label>
                         <label class="poll-option"><input type="radio" name="poll" value="Другое" /> Другое</label>
                     </div>
                     <button class="btn-vote" id="voteBtn">Проголосовать</button>
@@ -347,15 +1307,22 @@
             <h2 class="section-title">Список <span class="accent">использованных источников</span></h2>
             <ul class="ref-list">
                 <li>Арансон М.В. Питание для спортсменов. — М.: Лабиринт Пресс, 2004.</li>
-                <li>Арансон М.В. Спортивное питание: состояние вопроса и актуальные проблемы / М.В. Арансон // Сборник статей, 2020.</li>
+                <li>Арансон М.В. Спортивное питание: состояние вопроса и актуальные проблемы / М.В. Арансон // Сборник
+                    статей, 2020.</li>
                 <li>Гищак Т.В. Спортивная фармакология и диетология. — Москва. Диалектика. 2008.</li>
                 <li>Спортивное питание: какие бывают добавки и их назначение. — Материалы Crocus Fitness, 2025.</li>
-                <li><a href="https://sportwiki.to" target="_blank">SportWiki (СпортВики). Спортивные добавки — Энциклопедия (онлайн-ресурс)</a>.</li>
-                <li><a href="https://cyberleninka.ru" target="_blank">Применение пищевых добавок в индустрии спортивного питания. — Статья в научной библиотеке CyberLeninka</a>.</li>
-                <li><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">PubMed — база данных биомедицинской литературы</a>.</li>
-                <li><a href="https://www.webofscience.com/" target="_blank">Web of Science — платформа научного цитирования</a>.</li>
-                <li><a href="https://www.cochranelibrary.com/" target="_blank">Cochrane Library — база систематических обзоров</a>.</li>
-                <li><a href="https://www.ebsco.com/products/research-databases/sportdiscus" target="_blank">SPORTDiscus — база данных по спортивной медицине</a>.</li>
+                <li><a href="https://sportwiki.to" target="_blank">SportWiki (СпортВики). Спортивные добавки —
+                        Энциклопедия (онлайн-ресурс)</a>.</li>
+                <li><a href="https://cyberleninka.ru" target="_blank">Применение пищевых добавок в индустрии спортивного
+                        питания. — Статья в научной библиотеке CyberLeninka</a>.</li>
+                <li><a href="https://pubmed.ncbi.nlm.nih.gov/" target="_blank">PubMed — база данных биомедицинской
+                        литературы</a>.</li>
+                <li><a href="https://www.webofscience.com/" target="_blank">Web of Science — платформа научного
+                        цитирования</a>.</li>
+                <li><a href="https://www.cochranelibrary.com/" target="_blank">Cochrane Library — база систематических
+                        обзоров</a>.</li>
+                <li><a href="https://www.ebsco.com/products/research-databases/sportdiscus" target="_blank">SPORTDiscus
+                        — база данных по спортивной медицине</a>.</li>
                 <li>Интернет-ресурсы</li>
                 <li>Собственные наблюдения и исследования</li>
             </ul>
@@ -366,15 +1333,14 @@
         <div class="container">
             <p>МБОУ «СОШ №55 с углублённым изучением отдельных предметов» Московского района г. Казани</p>
             <p style="margin-top:4px;">Абдуллин Артур Рустемович, 10 «Б» &nbsp;·&nbsp; 2025–2026</p></br></br>
-        <!-- Yandex.Metrika informer -->
+            <!-- Yandex.Metrika informer -->
             <a href="https://metrika.yandex.ru/stat/?id=111851955&amp;from=informer" target="_blank" rel="nofollow">
                 <img src="https://informer.yandex.ru/informer/111851955/3_0_535353FF_333333FF_1_pageviews"
-                     style="width:88px; height:31px; border:0;"
-                     alt="Яндекс.Метрика"
-                     title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
-                    class="ym-advanced-informer" data-cid="111851955" data-lang="ru"/>
+                    style="width:88px; height:31px; border:0;" alt="Яндекс.Метрика"
+                    title="Яндекс.Метрика: данные за сегодня (просмотры, визиты и уникальные посетители)"
+                    class="ym-advanced-informer" data-cid="111851955" data-lang="ru" />
             </a>
-        <!-- /Yandex.Metrika informer -->
+            <!-- /Yandex.Metrika informer -->
         </div>
     </footer>
 
@@ -570,4 +1536,5 @@
         });
     </script>
 </body>
+
 </html>
